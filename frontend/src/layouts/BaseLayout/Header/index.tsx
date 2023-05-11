@@ -16,7 +16,7 @@ import HeaderUserbox from './Userbox';
 import HeaderUserConnect from './UserConnect';
 import HeaderMenu from './Menu';
 
-import { useConnect, useDisconnect } from 'wagmi';
+import { useConnect, useDisconnect, useAccount } from 'wagmi';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -36,16 +36,10 @@ const HeaderWrapper = styled(Box)(
 `
 );
 
-function Header({data}) {
+function Header() {
   const theme = useTheme();
-  const {
-    activeConnector,
-    connect,
-    connectors,
-    error,
-    isConnecting,
-    pendingConnector,
-  } = useConnect();
+  const { address, connector, isConnected } = useAccount()
+  const  { connect, connectors, error, isLoading, pendingConnector } = useConnect();
   const { disconnect } = useDisconnect();
 
   return (
@@ -78,19 +72,14 @@ function Header({data}) {
         >
           <HeaderMenu/>
         </Stack>
-        { data ? (
+        { isConnected ? (
           <Box display="flex" alignItems="center">
             <HeaderButtons />
-            { activeConnector && <HeaderUserbox disconnect={  disconnect }/> }            
+            { isConnected && <HeaderUserbox disconnect={  disconnect }/> }            
           </Box> 
           ) : (
             <Box display="flex" alignItems="center">
-              <HeaderUserConnect 
-                connectors={ connectors } 
-                activeConnector={ activeConnector } 
-                connect={ connect } 
-                isConnecting={ isConnecting } 
-                pendingConnector={ pendingConnector }/>
+              <HeaderUserConnect />
             </Box>
           )
         }

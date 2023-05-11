@@ -70,7 +70,7 @@ const ListWrapper = styled(Box)(
 function HeaderMenu() {
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
-  const { data: accountData } = useAccount();
+  const { address, connector, isConnected } = useAccount()
   const { loading, setLoading, isLeader, checkLeader } = useContractAccessControl();
 
 
@@ -84,7 +84,7 @@ function HeaderMenu() {
 
   const  validateLeader = async ()  => {
     setLoading(true);
-    checkLeader(accountData?.address);
+    checkLeader(address);
     setLoading(false);
   }
 
@@ -124,7 +124,7 @@ function HeaderMenu() {
           { loading ? <SuspenseLoader />
            :
             isLeader ?
-            accountData &&  (<>
+            isConnected &&  (<>
               <ListItem
                 classes={{ root: 'MuiListItem-indicators' }}
                 button

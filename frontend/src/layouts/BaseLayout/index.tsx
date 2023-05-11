@@ -24,8 +24,6 @@ interface BaseLayoutProps {
 
 const BaseLayout: FC<BaseLayoutProps> = () => {
   const theme = useTheme();
-  const { data } = useAccount();
-  const { checkLeader, checkMember } = useErc721Contract();
 
   return (
     <>
@@ -56,8 +54,7 @@ const BaseLayout: FC<BaseLayoutProps> = () => {
           }
         }}
       >
-        <Header data={data} />
-        { data && checkMember ? (  
+        <Header />  
           <Box
             sx={{
             position: 'relative',
@@ -70,21 +67,6 @@ const BaseLayout: FC<BaseLayoutProps> = () => {
               <Outlet />
             </Box>
           </Box>
-        ) : (
-          <Box
-          sx={{
-          position: 'relative',
-          zIndex: 5,
-          display: 'block',
-          flex: 1
-          }}
-        >
-          <Box display="block">
-            <Overview />
-          </Box>
-        </Box>
-        )        
-        }
       </Box>      
     </>
   );

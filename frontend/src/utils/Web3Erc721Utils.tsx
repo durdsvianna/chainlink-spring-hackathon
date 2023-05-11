@@ -118,7 +118,10 @@ export function useContractAccessControl() {
   const [ isLeader, setIsLeader ] = useState<boolean>(false);
 
   async function checkLeader(address: string): Promise<void> {
+    console.log("ENTROU NO HOOK")
     if (contract != null) {
+      console.log("ENCONTROU O CONTRATO")
+    
       try {          
         const leader:boolean = await contract.checkAddressLeader(address); 
         setIsLeader(leader);

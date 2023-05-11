@@ -70,7 +70,7 @@ const contractReadConfig = {
 
 const AccountBalance = () => {
   const theme = useTheme();
-  const { data: accountData } = useAccount();
+  const { address } = useAccount();
   const { data: signer, isError, isLoading } = useSigner();
   //const { balance, setBalance } = useState(" ");
   const [balance, setBalance] = useState<string>(" ");
@@ -80,7 +80,7 @@ const AccountBalance = () => {
   };
 
   const contract = useContract(contractConfig);
-  let balancePromise = contract.balanceOf(accountData.address);
+  let balancePromise = contract.balanceOf(address);
   console.log("balancePromise", balancePromise);
   balancePromise.then(result => {
       console.log("setBalance", ethers.utils.formatEther(result));

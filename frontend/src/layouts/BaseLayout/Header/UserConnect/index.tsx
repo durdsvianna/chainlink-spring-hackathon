@@ -23,6 +23,7 @@ import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 import MessageIcon from '@mui/icons-material/Message';
+import { useConnect, useDisconnect, useAccount } from 'wagmi';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -59,10 +60,11 @@ const UserBoxDescription = styled(Typography)(
 `
 );
 
-function HeaderUserConnect({ connectors,  activeConnector, connect, isConnecting, pendingConnector }) {
+function HeaderUserConnect() {
   const ref = useRef<any>(null);
   const [isOpen, setOpen] = useState<boolean>(false);
-
+  const { address, connector, isConnected } = useAccount()
+  const { connect, connectors, error, isLoading, pendingConnector } = useConnect()
   const handleOpen = (): void => {
     setOpen(true);
   };
@@ -98,14 +100,21 @@ function HeaderUserConnect({ connectors,  activeConnector, connect, isConnecting
           vertical: 'top',
           horizontal: 'right'
         }}
-      >        
+      >       
+
         <List sx={{ p: 1 }} component="nav">
           {
-            connectors
-            .filter((x) => x.ready && x.id !== activeConnector?.id)
-            .map((x) => (
-              <ListItem button to="/" key={x.id} onClick={() => connect(x)} component={NavLink}>
-                <ListItemText primary={x.name || (isConnecting && x.id === pendingConnector?.id && ' (connecting)')} />
+            connectors.map((connector) => (
+              <ListItem
+                disabled={!connector.ready}
+                key={connector.id}
+                onClick={() => connect({ connector })}
+              >
+                <ListItemText>
+                {connector.name}
+                {!connector.ready && ' (unsupported)'}
+                {isLoading && connector.id === pendingConnector?.id && ' (connecting)'}
+                </ListItemText>                
               </ListItem>
             ))
           }

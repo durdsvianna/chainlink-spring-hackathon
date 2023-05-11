@@ -2,13 +2,16 @@ import { useAccount, useEnsName } from 'wagmi';
 
 export function useShortenAddressOrEnsName() {
     function shortenAddressOrEnsName(length = 5): string {
-      const { data: accountData } = useAccount();
-      const { data: ensNameData } = useEnsName({ address: accountData?.address });
+      const { address, connector, isConnected } = useAccount()
+      const { data: ensNameData } = useEnsName({ address: address });
 
-      const prefix = accountData?.address.slice(0, length + 2);
-      const suffix = accountData?.address.slice(accountData?.address.length - length);
-  
-      return ensNameData ?? `${prefix}...${suffix}`;
+      if (address && address.length > 0) {
+        const prefix = address.slice(0, length + 2);
+        const suffix = address.slice(address.length - length);
+    
+        return ensNameData ?? `${prefix}...${suffix}`;
+      }
+      else return "Unnamed";
     }
   
     return { shortenAddressOrEnsName };
@@ -29,8 +32,8 @@ export function useShortenAddressOrEnsName() {
   
   export function useWalletAddress() {
     function walletAddress(){
-      const { data: accountData } = useAccount();
-      const addressWallet = accountData?.address;
+      const { address, connector, isConnected } = useAccount()
+      const addressWallet = address;
   
       return addressWallet
     }
@@ -40,10 +43,10 @@ export function useShortenAddressOrEnsName() {
 
   export function useEnsNameOrShortenAddress() {
     function ensNameOrShortenAddress(length = 5): string {
-      const { data: accountData } = useAccount();
-      const { data: ensNameData } = useEnsName({ address: accountData?.address });
+      const { address, connector, isConnected } = useAccount()
+      const { data: ensNameData } = useEnsName({ address: address });
       
-      return ensNameData ?? accountData?.address;
+      return ensNameData ?? address;
     }
   
     return { ensNameOrShortenAddress };

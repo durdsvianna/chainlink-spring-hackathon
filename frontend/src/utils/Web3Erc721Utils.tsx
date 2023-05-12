@@ -1,5 +1,6 @@
 import { useState, useEffect, SetStateAction } from 'react';
-import { useContract, useFeeData, useSigner } from 'wagmi';
+import { useContract, useContractRead, useFeeData, useSigner, useAccount } from 'wagmi';
+import type { Address } from 'wagmi'
 import NftERC721Artifact from "src/contracts/NftERC721.json";
 import contractAddress from "src/contracts/contract-nfterc721-address.json";
 import { NftOrder } from 'src/models/nft_order';
@@ -103,34 +104,28 @@ export function useContractApprovementActivity() {
 }
 
 export function useContractAccessControl() {
-  const contractReadConfig = {
-    addressOrName: contractAddress.NftERC721,
-    contractInterface: NftERC721Artifact.abi,
-  }
-  const { data: signer } = useSigner();
-  const contractConfig = {
-    ...contractReadConfig,
-    signerOrProvider: signer,
-  };
-  const contract = useContract(contractConfig);
+  const { address, connector, isConnected } = useAccount();  
+  const provider = new ethers.providers.Web3Provider(window.ethereum);  
+  const contract = new ethers.Contract(
+    contractAddress.NftERC721,
+    NftERC721Artifact.abi,
+    provider.getSigner(0)
+  );
+  
   const [loading, setLoading] = useState(false);
   const [ isMember, setIsMember ] = useState<boolean>(false);
   const [ isLeader, setIsLeader ] = useState<boolean>(false);
 
-  async function checkLeader(address: string): Promise<void> {
-    console.log("ENTROU NO HOOK")
-    if (contract != null) {
-      console.log("ENCONTROU O CONTRATO")
-    
-      try {          
-        const leader:boolean = await contract.checkAddressLeader(address); 
-        setIsLeader(leader);
-        console.log('Check Leader  = ', leader);          
-      } catch (error) {
-        console.log("errors", error);
-        return;
-      } 
-    }
+  async function checkLeader(): Promise<void> {        
+    try {          
+      const leader:boolean = await contract.checkAddressLeader(address); 
+      setIsLeader(leader);
+      console.log('Check Leader  = ', leader);          
+    } catch (error) {
+      console.log("errors", error);
+      return;
+    } 
+      
   }
 
   return { loading, setLoading, isLeader, checkLeader }

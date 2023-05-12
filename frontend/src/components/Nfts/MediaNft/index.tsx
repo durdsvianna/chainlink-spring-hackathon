@@ -21,7 +21,7 @@ export default function MediaNft() {
         if (data.length <= 0) 
           loadData(); 
 
-  })
+  },[])
 
   useEffect(() =>{
     console.log("data", data)

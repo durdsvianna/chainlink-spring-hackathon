@@ -34,7 +34,7 @@ function ApplicationsActivities() {
         if(lastToken == null) 
           loadData();  
     }
-    })
+    },[])
 
   return (
     <>

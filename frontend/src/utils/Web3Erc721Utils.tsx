@@ -10,18 +10,34 @@ import { number } from 'prop-types';
 import { ethers, Signer } from 'ethers';
 const ipfsGateway = process.env.REACT_APP_IPFS_GATEWAY;
 
-export function useBurnActivity() {
+const provider = new ethers.providers.Web3Provider(window.ethereum);  
+const contract = new ethers.Contract(
+  contractAddress.NftERC721,
+  NftERC721Artifact.abi,
+  provider.getSigner(0)
+);
 
-  const contractReadConfig = {
-    addressOrName: contractAddress.NftERC721,
-    contractInterface: NftERC721Artifact.abi,
+export function useMintToken() {
+  const [loading, setLoading] = useState(false);
+  const [ isMinted, setIsMinted ] = useState(false);
+
+  async function safeMint(tokenUri: string, to: string, amount: string): Promise<void> {
+    if (contract != null) {
+      try {          
+        const mintResult = contract.safeMint(to, tokenUri, {value: ethers.utils.parseEther(amount)});
+        console.log("mintResult", mintResult);    
+        setIsMinted(true);
+      } catch (error) {
+        console.log("errors", error);
+        return;
+      } 
+    }
   }
-  const { data: signer } = useSigner();
-  const contractConfig = {
-    ...contractReadConfig,
-    signerOrProvider: signer,
-  };
-  const contract = useContract(contractConfig);
+
+  return { loading, setLoading, isMinted, safeMint }     
+}
+
+export function useBurnActivity() {
   const [loading, setLoading] = useState(false);
   const [ burn, setBurn ] = useState('');
 
@@ -42,19 +58,9 @@ export function useBurnActivity() {
 }
 
 export function useContractApprovementActivity() {
-  const contractReadConfig = {
-    addressOrName: contractAddress.NftERC721,
-    contractInterface: NftERC721Artifact.abi,
-  }
-  const { data: signer } = useSigner();
-  const contractConfig = {
-    ...contractReadConfig,
-    signerOrProvider: signer,
-  };
-  const contract = useContract(contractConfig);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null)
-
+ 
   let getNextNonce = async (contract) => (await contract.nonce()).add(1);
         
   let getDigest = async (tokenId, nonce, amount, to) => {
@@ -79,7 +85,7 @@ export function useContractApprovementActivity() {
         const amount = 2;
         let nonce = await getNextNonce(contract);
         let digest = await getDigest(tokenId, nonce, amount, to);
-        let signers = [ signer];
+        let signers = [ provider.getSigner(0)];
         signers.sort((x, y) => x.getAddress() > y.getAddress()? 1: -1);
         let signatures = [];
         for (let signer of signers) {
@@ -87,7 +93,7 @@ export function useContractApprovementActivity() {
           signatures.push(sign);
         }
 
-        await subjectMethod(signer, nonce, amount, tokenId, to, signatures);
+        await subjectMethod(provider.getSigner(0), nonce, amount, tokenId, to, signatures);
             
         //console.log('Check Leader  = ', leader);  
         //setLoading(false);
@@ -105,12 +111,6 @@ export function useContractApprovementActivity() {
 
 export function useContractAccessControl() {
   const { address, connector, isConnected } = useAccount();  
-  const provider = new ethers.providers.Web3Provider(window.ethereum);  
-  const contract = new ethers.Contract(
-    contractAddress.NftERC721,
-    NftERC721Artifact.abi,
-    provider.getSigner(0)
-  );
   
   const [loading, setLoading] = useState(false);
   const [ isMember, setIsMember ] = useState<boolean>(false);
@@ -131,17 +131,7 @@ export function useContractAccessControl() {
   return { loading, setLoading, isLeader, checkLeader }
 }
 
-export function useContractLoadTokenId(){
-  const contractReadConfig = {
-    addressOrName: contractAddress.NftERC721,
-    contractInterface: NftERC721Artifact.abi,
-  }
-  const { data: signer } = useSigner();
-  const contractConfig = {
-    ...contractReadConfig,
-    signerOrProvider: signer,
-  };
-  const contract = useContract(contractConfig);
+export function useContractLoadTokenId(){  
   const { downloadJsonFromPinata, downloadListFromPinata } = useIpfsUploader();
   const [loading, setLoading] = useState(false);
   const [ data, setData ] = useState<NftOrder>(null);
@@ -192,16 +182,6 @@ export function useContractLoadTokenId(){
 }
 
 export function useContractLoadLastNft() {
-  const contractReadConfig = {
-    addressOrName: contractAddress.NftERC721,
-    contractInterface: NftERC721Artifact.abi,
-  }
-  const { data: signer } = useSigner();
-  const contractConfig = {
-    ...contractReadConfig,
-    signerOrProvider: signer,
-  };
-  const contract = useContract(contractConfig);
   const [loadingLastToken, setLoadingLastToken] = useState(false);
   const { downloadJsonFromPinata, downloadListFromPinata } = useIpfsUploader();    
   
@@ -257,16 +237,6 @@ export function useContractLoadLastNft() {
 }
 
 export function useContractLoadNfts() {
-  const contractReadConfig = {
-    addressOrName: contractAddress.NftERC721,
-    contractInterface: NftERC721Artifact.abi,
-  }
-  const { data: signer } = useSigner();
-  const contractConfig = {
-    ...contractReadConfig,
-    signerOrProvider: signer,
-  };
-  const contract = useContract(contractConfig);
   const [loading, setLoading] = useState(false);
   const [ data, setData ] = useState<NftOrder[]>([]);
   const { downloadJsonFromPinata, downloadListFromPinata } = useIpfsUploader();    
@@ -342,19 +312,6 @@ export function useErc721Contract() {
     const [checkMember, setCheckMember] = useState(true);
     const [checkLeader, setCheckLeader] = useState(false);
     const [burn, setBurn] = useState(false)
-
-    const contractReadConfig = {
-      addressOrName: contractAddress.NftERC721,
-      contractInterface: NftERC721Artifact.abi,
-    }
-    const { data: signer } = useSigner();
-    const contractConfig = {
-      ...contractReadConfig,
-      signerOrProvider: signer,
-    };
-    const contract = useContract(contractConfig);
-    const { downloadJsonFromPinata, downloadListFromPinata } = useIpfsUploader();
-    const ipfsGateway = process.env.REACT_APP_IPFS_GATEWAY;
 
     function balanceOf(to: string): void {
       if (contract != null) {

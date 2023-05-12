@@ -24,6 +24,7 @@ import { Dayjs } from 'dayjs';
 import { DatePicker, DatePickerProps } from '@mui/x-date-pickers';
 import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 import { useIpfsUploader } from "src/utils/IpfsUtils"
+import { useMintToken } from "src/utils/Web3Erc721Utils"
 import { useDateFormatter } from 'src/utils/DateUtils';
 import { useContract, useAccount, useEnsName, useSigner, useProvider } from 'wagmi';
 import NftERC721Artifact from "src/contracts/NftERC721.json";
@@ -155,32 +156,19 @@ function ActivityTab({data}) {
     animation_url: '',
     youtube_url: '',
     attributes: []
-  });  
+  }); 
+  const { loading, setLoading, isMinted, safeMint } = useMintToken(); 
   const { getFormattedDate, languageFormat, setLanguageFormat } = useDateFormatter('pt-BR');
   const { uploadToInfura, uploadFileToPinata, uploadJsonToPinata, uploadFileResult, setUploadFileResult, uploadJsonResult, setUploadJsonResult } = useIpfsUploader();
-  const contractReadConfig = {
-    addressOrName: contractAddress.NftERC721,
-    contractInterface: NftERC721Artifact.abi,
-  }
-  const contractConfig = {
-    ...contractReadConfig,
-    signerOrProvider: signer,
-  };
-
-  const contract = useContract(contractConfig);
+  
   const mintNft = async (tokenUri, to) => { 
     console.log("ENTROU NO MINT")
     //realiza o mint da NFT          
     // Replace 'mainnet' with your desired Ethereum network
-    console.log("provider",provider)
-    // const exchangeRatePromise = provider.getEtherPrice();
-    // exchangeRatePromise.then((exchangeRate) => {      
-    //   const ethAmount = valueReward / exchangeRate;
-    //   console.log("ethAmount", ethAmount);          
-
-    // });
-    const mintResult = contract.safeMint(to, tokenUri, {value: 1});
-    console.log("mintResult", mintResult);    
+    setLoading(true);
+    safeMint(to, tokenUri, "1");
+    setLoading(false);
+    console.log("SAIU DO MINT")
   }  
 
   const onSubmit = async(event: { preventDefault: () => void; }) => {

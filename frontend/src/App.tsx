@@ -29,17 +29,6 @@ function App() {
   const [openError, setOpenError] = useState(false);
 
   const content = useRoutes(router);
-  const { data: signer, isError, isLoading } = useSigner();
-  const contractReadConfig = {
-    addressOrName: contractAddress.NftERC721,
-    contractInterface: NftERC721Artifact.abi,
-  }
-  const contractConfig = {
-    ...contractReadConfig,
-    signerOrProvider: signer,
-  };
-  const contract = useContract(contractConfig);
-
   
   // const onNftMinted = (data) => {
   //   console.log("Evento de mint!")

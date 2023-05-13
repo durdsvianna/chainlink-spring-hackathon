@@ -255,6 +255,10 @@ const ether = (amount) => {
           console.log(
             `=> Before, balance of NFTs on contract ${hardhatNftERC721.address} is ${balanceContractBefore} on ${network.name}`
           )
+          let initLeader1ETHBalance = await ethers.provider.getBalance(hardhatNftERC721.address);          
+          console.log(
+            `=> Before, balance of ETH on contract ${hardhatNftERC721.address} is ${initLeader1ETHBalance} on ${network.name}`
+          )
           console.log(`Minting!`);
           await hardhatNftERC721.connect(leader1).safeMint(hardhatNftERC721.address, JSON.parse(tokenUri), {value: amount});
           var counterTokenId = (await hardhatNftERC721.tokenIdCounter())-1;
@@ -264,12 +268,8 @@ const ether = (amount) => {
           console.log(
             `=> After, balance of NFTs on contract ${hardhatNftERC721.address} is ${balanceContractAfter} on ${network.name}`
           )
-          
-          let initLeader1ETHBalance = await ethers.provider.getBalance(hardhatNftERC721.address);
-          console.log(
-            `=> Before, balance of ETH on contract ${hardhatNftERC721.address} is ${initLeader1ETHBalance} on ${network.name}`
-          )
-          await leader1.sendTransaction({value: amount, to: hardhatNftERC721.address});
+                    
+          //await leader1.sendTransaction({value: amount, to: hardhatNftERC721.address});
     
           let finalLeader1ETHBalance = await ethers.provider.getBalance(hardhatNftERC721.address);
           console.log(

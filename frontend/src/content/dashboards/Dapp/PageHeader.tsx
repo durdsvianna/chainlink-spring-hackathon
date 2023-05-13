@@ -33,10 +33,10 @@ function stringAvatar(name: string) {
 
 function PageHeader() {
   const { address } = useAccount()
-  const { data: ensNameData } = useEnsName({ address: address })
+  //const { data: ensNameData } = useEnsName({ address: address })
 
   const user = {
-    name: ensNameData ?? address,
+    name: address,
     avatar: '/static/images/avatars/1.jpg'
   };
   const theme = useTheme();
@@ -51,7 +51,7 @@ function PageHeader() {
             height: theme.spacing(8)
           }}
           variant="rounded"
-          {...stringAvatar(ensNameData ? ensNameData : '0x '+ address)}
+          {...stringAvatar('0x '+ address)}
         />
       </Grid>
       <Grid item>

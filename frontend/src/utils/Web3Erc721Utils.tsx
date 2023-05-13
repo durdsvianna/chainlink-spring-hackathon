@@ -1,5 +1,5 @@
 import { useState, useEffect, SetStateAction } from 'react';
-import { useContract, useContractRead, useFeeData, useSigner, useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi';
+import { useContract, useContractRead, useFeeData, useSigner, useAccount, useContractWrite, usePrepareContractWrite, useNetwork } from 'wagmi';
 import type { Address } from 'wagmi'
 import NftERC721Artifact from "src/contracts/NftERC721.json";
 import contractAddress from "src/contracts/contract-nfterc721-address.json";
@@ -8,11 +8,11 @@ import { useIpfsUploader } from "src/utils/IpfsUtils"
 import { useWalletAddress } from 'src/utils/Web3Utils';
 import { number } from 'prop-types';
 import { ethers, Signer } from 'ethers';
-
 import { configureChains } from 'wagmi'
 import { hardhat } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 import { InjectedConnector } from 'wagmi/connectors/injected'
+import { arDZ } from 'date-fns/locale';
 
 // const { chains } = configureChains(
 //   [hardhat],
@@ -31,30 +31,18 @@ const contract = new ethers.Contract(
 export function useMintToken(uploadJsonResult) {
   const [loading, setLoading] = useState(false);
   const [ isMinted, setIsMinted ] = useState(false);
-  const [addressContract, setAddressContract] = useState<Address>(`0x ${contractAddress.NftERC721.substring(2, contractAddress.NftERC721.length)}`)
+  const [addressContract, setAddressContract] = useState<Address>(`0x${contractAddress.NftERC721.substring(2, contractAddress.NftERC721.length)}`)
 
-  const {config, error} = usePrepareContractWrite({
-    address: addressContract,
-    abi: NftERC721Artifact.abi,
-    functionName: 'safeMint',
-    args:[addressContract, uploadJsonResult ]
-  })
-
-  //Write interagir com o contrato
-  const {write} = useContractWrite(config);  
-
-
-  async function safeMint(tokenUri: string, to: string, amount: string): Promise<void> {
+  async function safeMint(to: string, tokenUri: string, amount: string): Promise<void> {
     if (contract != null) {
       try {          
-        const mintResult = contract.safeMint(to, tokenUri, {value: ethers.utils.parseEther(amount)});
-        console.log("mintResult", mintResult);    
+        await contract.safeMint(addressContract, tokenUri, {value:ethers.utils.parseEther(amount)});
         setIsMinted(true);
+        console.log("FINALIZOU O SAFEMINT")
       } catch (error) {
         console.log("errors", error);
         return;
-      } 
-      
+      }       
     }
   }
 
@@ -216,6 +204,7 @@ export function useContractLoadLastNft() {
       try {
         const nftQuantity = await contract.idCounter();  
         const uri = await contract.tokenURI(nftQuantity.toNumber()-1);
+        console.log("uri", uri);
         const nftOwner = await contract.ownerOf(nftQuantity.toNumber()-1); 
         console.log("nftOwner", nftOwner);
         const metadblata = downloadJsonFromPinata(ipfsGateway+uri).then(result => {
@@ -245,6 +234,7 @@ export function useContractLoadLastNft() {
               difficulty: 'Avancado',
             };         
           setLastToken(nftOrder);  
+          console.log("nftOrder", nftOrder);
         });        
       } catch (error) {
         console.log("error", error);

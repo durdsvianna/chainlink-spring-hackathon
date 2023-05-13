@@ -21,7 +21,7 @@ import Chart from 'react-apexcharts';
 import type { ApexOptions } from 'apexcharts';
 
 import { BigNumber, ethers } from 'ethers';
-import { useContractRead, useContract, useAccount, useEnsName, useSigner } from 'wagmi';
+import { useContractRead, useContract, useAccount, useSigner } from 'wagmi';
 import TokenArtifact from "src/contracts/Token.json";
 import contractAddress from "src/contracts/contract-address.json";
 

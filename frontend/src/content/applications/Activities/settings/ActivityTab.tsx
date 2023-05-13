@@ -103,7 +103,7 @@ function ActivityTab({ data }) {
   const [toAddress, setToAddress] = useState('');
   const [imageCoverLoaded, setImageCoverLoaded] = useState(false);
   const { data: signer, isError, isLoading } = useSigner();
-  const provider = useProvider();
+  //const provider = useProvider();
   const [nft, setNft] = useState({
     name: '',
     description: '',
@@ -119,13 +119,10 @@ function ActivityTab({ data }) {
   const { getFormattedDate, languageFormat, setLanguageFormat } = useDateFormatter('pt-BR');
 
   const mintNft = async (tokenUri, to) => {
-    console.log("ENTROU NO MINT")
-    //realiza o mint da NFT          
-    // Replace 'mainnet' with your desired Ethereum network
     setLoading(true);
     safeMint(to, tokenUri, "1");
     setLoading(false);
-    console.log("SAIU DO MINT")
+    
   }
 
   const onSubmit = async (event: { preventDefault: () => void; }) => {

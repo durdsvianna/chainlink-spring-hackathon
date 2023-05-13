@@ -1,5 +1,5 @@
 import { useState, useEffect, SetStateAction } from 'react';
-import { useContract, useContractRead, useFeeData, useSigner, useAccount } from 'wagmi';
+import { useContract, useContractRead, useFeeData, useSigner, useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi';
 import type { Address } from 'wagmi'
 import NftERC721Artifact from "src/contracts/NftERC721.json";
 import contractAddress from "src/contracts/contract-nfterc721-address.json";
@@ -8,18 +8,41 @@ import { useIpfsUploader } from "src/utils/IpfsUtils"
 import { useWalletAddress } from 'src/utils/Web3Utils';
 import { number } from 'prop-types';
 import { ethers, Signer } from 'ethers';
+
+import { configureChains } from 'wagmi'
+import { hardhat } from 'wagmi/chains'
+import { publicProvider } from 'wagmi/providers/public'
+import { InjectedConnector } from 'wagmi/connectors/injected'
+
+// const { chains } = configureChains(
+//   [hardhat],
+//   [publicProvider()],
+// )
+
 const ipfsGateway = process.env.REACT_APP_IPFS_GATEWAY;
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);  
 const contract = new ethers.Contract(
   contractAddress.NftERC721,
   NftERC721Artifact.abi,
-  provider.getSigner(0)
+  provider.getSigner()
 );
 
-export function useMintToken() {
+export function useMintToken(uploadJsonResult) {
   const [loading, setLoading] = useState(false);
   const [ isMinted, setIsMinted ] = useState(false);
+  const [addressContract, setAddressContract] = useState<Address>(`0x ${contractAddress.NftERC721.substring(2, contractAddress.NftERC721.length)}`)
+
+  const {config, error} = usePrepareContractWrite({
+    address: addressContract,
+    abi: NftERC721Artifact.abi,
+    functionName: 'safeMint',
+    args:[addressContract, uploadJsonResult ]
+  })
+
+  //Write interagir com o contrato
+  const {write} = useContractWrite(config);  
+
 
   async function safeMint(tokenUri: string, to: string, amount: string): Promise<void> {
     if (contract != null) {
@@ -31,6 +54,7 @@ export function useMintToken() {
         console.log("errors", error);
         return;
       } 
+      
     }
   }
 

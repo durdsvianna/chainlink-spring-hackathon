@@ -1,20 +1,10 @@
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-  Menu,
-  MenuItem,
-  Typography
-} from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
+import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import { useContractAccessControl } from 'src/utils/Web3Erc721Utils';
 import { useAccount } from 'wagmi';
 import SuspenseLoader from 'src/components/SuspenseLoader';
-import { isAddress } from 'ethers/lib/utils';
 
 const ListWrapper = styled(Box)(
   ({ theme }) => `
@@ -68,38 +58,23 @@ const ListWrapper = styled(Box)(
 );
 
 function HeaderMenu() {
-  const ref = useRef<any>(null);
-  const [isOpen, setOpen] = useState<boolean>(false);
-  const { address, connector, isConnected } = useAccount();
-  const { loading, setLoading, isLeader, checkLeader } = useContractAccessControl();
+  const { isConnected } = useAccount();
+  const { loading, setLoading, isLeader, checkLeader } =
+    useContractAccessControl();
 
-
-  const handleOpen = (): void => {
-    setOpen(true);
-  };
-
-  const handleClose = (): void => {
-    setOpen(false);
-  };
-
-  const  validateLeader = async ()  => {
+  const validateLeader = async () => {
     setLoading(true);
     checkLeader();
     setLoading(false);
-  }
+  };
 
   useEffect(() => {
-      
-    if (!loading) 
-      validateLeader();
-
+    if (!loading) validateLeader();
   });
 
   useEffect(() => {
-    
-    console.log("loading", loading)
-    console.log("isLeader", isLeader)
-    
+    console.log('loading', loading);
+    console.log('isLeader', isLeader);
   }, [loading, isLeader]);
 
   return (
@@ -119,30 +94,36 @@ function HeaderMenu() {
             component={NavLink}
             to="/dapp"
           >
-            <img src="../../../web3dev.png" alt="Web3Dev" />
-          </ListItem>          
-          { loading ? <SuspenseLoader />
-           :
-            isLeader ?
-            isConnected &&  (<>
-              <ListItem
-                classes={{ root: 'MuiListItem-indicators' }}
-                button
-                component={NavLink}
-                to="/dapp/activities"
-              >
-                <ListItemText 
-                  primaryTypographyProps={{ noWrap: true }}
-                  primary={ 
-                  <Typography color={'white'} sx={{ "&:hover": { color: "green" } }}>Manage</Typography>
-                  }
-                />
-              </ListItem>              
-            </>
+            <img src="../../../nft-logo.png" alt="WarrantyNFtService" />
+          </ListItem>
+          {loading ? (
+            <SuspenseLoader />
+          ) : isLeader ? (
+            isConnected && (
+              <>
+                <ListItem
+                  classes={{ root: 'MuiListItem-indicators' }}
+                  button
+                  component={NavLink}
+                  to="/dapp/activities"
+                >
+                  <ListItemText
+                    primaryTypographyProps={{ noWrap: true }}
+                    primary={
+                      <Typography
+                        color={'white'}
+                        sx={{ '&:hover': { color: '#929397' } }}
+                      >
+                        Manage
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              </>
             )
-            :
+          ) : (
             <></>
-          }
+          )}
         </List>
       </ListWrapper>
     </>

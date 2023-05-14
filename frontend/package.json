@@ -1,7 +1,7 @@
 {
-  "name": "web3dev-react-admin-dashboard",
+  "name": "warranty-react-admin-dashboard",
   "version": "2.0.0",
-  "title": "Web3Dev - Marketplace of activities of education Pod.",
+  "title": "Warranty - NFTservice",
   "description": "This free and open source admin dashboard template is built for React and it’s bootstrapped from Facebook’s create-react-app. All NPM dependencies are up to date and it contains multiple fully customized components based on the popular frontend components framework, Material-UI.",
   "author": {
     "name": "BloomUI.com",

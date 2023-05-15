@@ -129,12 +129,25 @@ function HeaderMenu() {
                 classes={{ root: 'MuiListItem-indicators' }}
                 button
                 component={NavLink}
+                to="/dapp/warranties"
+              >
+                <ListItemText 
+                  primaryTypographyProps={{ noWrap: true }}
+                  primary={ 
+                  <Typography color={'white'} sx={{ "&:hover": { color: "green" } }}>Warranties</Typography>
+                  }
+                />
+              </ListItem>
+              <ListItem
+                classes={{ root: 'MuiListItem-indicators' }}
+                button
+                component={NavLink}
                 to="/dapp/activities"
               >
                 <ListItemText 
                   primaryTypographyProps={{ noWrap: true }}
                   primary={ 
-                  <Typography color={'white'} sx={{ "&:hover": { color: "green" } }}>Manage</Typography>
+                  <Typography color={'white'} sx={{ "&:hover": { color: "green" } }}>Activities</Typography>
                   }
                 />
               </ListItem>              

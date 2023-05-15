@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
 import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { useContractAccessControl } from 'src/utils/Web3Erc721Utils';
@@ -58,9 +58,19 @@ const ListWrapper = styled(Box)(
 );
 
 function HeaderMenu() {
+  const ref = useRef<any>(null);
+  const [isOpen, setOpen] = useState<boolean>(false);
   const { isConnected } = useAccount();
   const { loading, setLoading, isLeader, checkLeader } =
     useContractAccessControl();
+
+  const handleOpen = (): void => {
+    setOpen(true);
+  };
+
+  const handleClose = (): void => {
+    setOpen(false);
+  };
 
   const validateLeader = async () => {
     setLoading(true);
@@ -94,39 +104,50 @@ function HeaderMenu() {
             component={NavLink}
             to="/dapp"
           >
-            <img src="../../../web3dev.png" alt="Web3Dev" />
-          </ListItem>          
-          { loading ? <SuspenseLoader />
-           :
-            isLeader ?
-            isConnected &&  (<>
-              <ListItem
-                classes={{ root: 'MuiListItem-indicators' }}
-                button
-                component={NavLink}
-                to="/dapp/warranties"
-              >
-                <ListItemText 
-                  primaryTypographyProps={{ noWrap: true }}
-                  primary={ 
-                  <Typography color={'white'} sx={{ "&:hover": { color: "green" } }}>Warranties</Typography>
-                  }
-                />
-              </ListItem>
-              <ListItem
-                classes={{ root: 'MuiListItem-indicators' }}
-                button
-                component={NavLink}
-                to="/dapp/activities"
-              >
-                <ListItemText 
-                  primaryTypographyProps={{ noWrap: true }}
-                  primary={ 
-                  <Typography color={'white'} sx={{ "&:hover": { color: "green" } }}>Activities</Typography>
-                  }
-                />
-              </ListItem>              
-            </>
+            <img src="../../../nft-logo.png" alt="WarrantyNFTService" />
+          </ListItem>
+          {loading ? (
+            <SuspenseLoader />
+          ) : isLeader ? (
+            isConnected && (
+              <>
+                <ListItem
+                  classes={{ root: 'MuiListItem-indicators' }}
+                  button
+                  component={NavLink}
+                  to="/dapp/warranties"
+                >
+                  <ListItemText
+                    primaryTypographyProps={{ noWrap: true }}
+                    primary={
+                      <Typography
+                        color={'white'}
+                        sx={{ '&:hover': { color: 'green' } }}
+                      >
+                        Warranties
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+                <ListItem
+                  classes={{ root: 'MuiListItem-indicators' }}
+                  button
+                  component={NavLink}
+                  to="/dapp/activities"
+                >
+                  <ListItemText
+                    primaryTypographyProps={{ noWrap: true }}
+                    primary={
+                      <Typography
+                        color={'white'}
+                        sx={{ '&:hover': { color: 'green' } }}
+                      >
+                        Activities
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              </>
             )
           ) : (
             <></>

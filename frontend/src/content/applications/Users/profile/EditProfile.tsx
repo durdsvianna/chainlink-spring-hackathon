@@ -14,25 +14,18 @@ function EditProfileTab({ user: UserProfile }) {
   const [cover, setCover] = useState(UserProfile.coverImg);
   const [avatar, setAvatar] = useState(UserProfile.avatar);
 
-  const handleChangeCover = (event) => {
+  const handleChangeFile = (type: string) => (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
 
     reader.onloadend = () => {
-      setCover(reader.result);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleChangeAvatar = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setAvatar(reader.result);
+      if (type === 'cover') {
+        setCover(reader.result);
+      } else if (type === 'avatar') {
+        setAvatar(reader.result);
+      } else {
+        return null;
+      }
     };
 
     if (file) {
@@ -51,14 +44,13 @@ function EditProfileTab({ user: UserProfile }) {
               id="change-cover"
               multiple
               type="file"
-              onChange={handleChangeCover}
+              onChange={handleChangeFile('cover')}
             />
             <label htmlFor="change-cover">
               <Button
                 startIcon={<UploadTwoToneIcon />}
                 variant="contained"
                 component="span"
-                onChange={handleChangeCover}
               >
                 Modificar papel de parede
               </Button>
@@ -73,7 +65,7 @@ function EditProfileTab({ user: UserProfile }) {
               id="icon-button-file"
               name="icon-button-file"
               type="file"
-              onChange={handleChangeAvatar}
+              onChange={handleChangeFile('avatar')}
             />
             <label htmlFor="icon-button-file">
               <IconButton component="span" color="primary">

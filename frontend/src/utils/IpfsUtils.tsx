@@ -1,140 +1,181 @@
-import React, { useState } from "react";
-import axios from "axios";
-import axiosRetry from "axios-retry";
+import { useState } from 'react';
+import axios from 'axios';
 
-import { create } from 'ipfs-http-client'
-import { Buffer } from 'buffer'
+import { create } from 'ipfs-http-client';
+import { Buffer } from 'buffer';
 
-export function useIpfsUploader(){
+export function useIpfsUploader() {
   const [uploadFileResult, setUploadFileResult] = useState({});
   const [uploadJsonResult, setUploadJsonResult] = useState({});
 
-  async function uploadToInfura(file: File): Promise<{ cid: { }, path: string, size: number }> {
+  async function uploadToInfura(
+    file: File
+  ): Promise<{ cid: {}; path: string; size: number }> {
     /* configure Infura auth settings */
     const projectId = process.env.REACT_APP_INFURA_PROJECT_ID;
     const projectSecret = process.env.REACT_APP_INFURA_API_KEY_SECRET;
-    const auth = 'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+    const auth =
+      'Basic ' +
+      Buffer.from(projectId + ':' + projectSecret).toString('base64');
     /* Create an instance of the client */
     const clientIpfs = create({
       host: 'ipfs.infura.io',
       port: 5001,
       protocol: 'https',
       headers: {
-          authorization: auth,
+        authorization: auth
       }
-    });    
-    const addResult = await clientIpfs.add(file); 
-    return addResult;        
+    });
+    const addResult = await clientIpfs.add(file);
+    return addResult;
   }
 
-  async function uploadFileToPinata(file: File): Promise<{ IpfsHash: { }, PinSize: number, Timestamp: string }> {
+  async function uploadFileToPinata(
+    file: File
+  ): Promise<{ IpfsHash: {}; PinSize: number; Timestamp: string }> {
     /* configure pinata auth settings */
     const JWT = process.env.REACT_APP_PINATA_AUTH;
-    console.log("JWT", JWT);
+    console.log('JWT', JWT);
     const formData = new FormData();
-    formData.append('file', file)
+    formData.append('file', file);
     const metadata = JSON.stringify({
-      name: file.name,
+      name: file.name
     });
     formData.append('pinataMetadata', metadata);
     const options = JSON.stringify({
-      cidVersion: 0,
-    })
+      cidVersion: 0
+    });
     formData.append('pinataOptions', options);
-    try{
-      const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
-        headers: {
-          'Content-Type': `multipart/form-data; boundary=${formData}`,
-          Authorization: JWT
+    try {
+      const res = await axios.post(
+        'https://api.pinata.cloud/pinning/pinFileToIPFS',
+        formData,
+        {
+          headers: {
+            'Content-Type': `multipart/form-data; boundary=${formData}`,
+            Authorization: JWT
+          }
         }
-      });
+      );
       return res.data;
     } catch (error) {
       console.log(error);
     }
-    return null;        
+    return null;
   }
 
-  async function uploadJsonToPinata(file: string, fileName: string): Promise<{ IpfsHash: { }, PinSize: number, Timestamp: string }> {
+  async function uploadJsonToPinata(
+    file: string,
+    fileName: string
+  ): Promise<{ IpfsHash: {}; PinSize: number; Timestamp: string }> {
     /* configure pinata auth settings */
     const JWT = process.env.REACT_APP_PINATA_AUTH;
-    console.log("JWT", JWT);
+    console.log('JWT', JWT);
 
     var data = JSON.stringify({
-      "pinataOptions": {
-        "cidVersion": 1
+      pinataOptions: {
+        cidVersion: 1
       },
-      "pinataMetadata": {
-        "name": fileName
+      pinataMetadata: {
+        name: fileName
       },
-      "pinataContent": file
+      pinataContent: file
     });
 
-    try{
-      const res = await axios.post("https://api.pinata.cloud/pinning/pinJSONToIPFS", data, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: JWT
+    try {
+      const res = await axios.post(
+        'https://api.pinata.cloud/pinning/pinJSONToIPFS',
+        data,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: JWT
+          }
         }
-      });
+      );
       return res.data;
     } catch (error) {
       console.log(error);
     }
-    return null;        
+    return null;
   }
 
-  async function downloadJsonFromPinata(tokenUri: string): Promise<any> 
-  {
+  async function downloadJsonFromPinata(tokenUri: string): Promise<any> {
     /* configure pinata auth settings */
     const JWT = process.env.REACT_APP_PINATA_AUTH;
-    try{
+    try {
       var config = {
         method: 'get',
         url: tokenUri,
-        headers: { 
+        headers: {
           'Content-Type': 'application/json'
         }
       };
-      
+
       const res = await axios(config);
       return res.data;
     } catch (error) {
       console.log(error);
     }
-    return null;        
+    return null;
   }
 
-  async function downloadListFromPinata(): Promise<any> 
-  {
+  async function downloadListFromPinata(): Promise<any> {
     /* configure pinata auth settings */
     const JWT = process.env.REACT_APP_PINATA_AUTH;
-    try{
+    try {
       var config = {
         method: 'get',
         url: 'https://api.pinata.cloud/data/pinList?status=pinned',
-        headers: { 
-          'Authorization': JWT
+        headers: {
+          Authorization: JWT
         }
       };
-      
+
       const res = await axios(config);
       return res.data;
     } catch (error) {
       console.log(error);
     }
-    return null;        
+    return null;
   }
 
-  return { 
-    uploadToInfura, 
-    uploadFileToPinata, 
+  // async function updateMetadataToPinata() {
+  //   /* configure pinata auth settings */
+  //   const JWT = process.env.REACT_APP_PINATA_AUTH;
+
+  //   var data = JSON.stringify({
+  //     ipfsPinHash: 'CID',
+  //     name: 'Name',
+  //     keyvalues: {
+  //       anewkeyk: 'anewvalue'
+  //     }
+  //   });
+
+  //   var config = {
+  //     method: 'put',
+  //     url: 'https://api.pinata.cloud/pinning/hashMetadata',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Authorization: JWT
+  //     },
+  //     data: data
+  //   };
+
+  //   const res = await axios(config);
+
+  //   console.log(res.data);
+  // }
+
+  return {
+    uploadToInfura,
+    uploadFileToPinata,
     uploadJsonToPinata,
-    downloadJsonFromPinata, 
+    downloadJsonFromPinata,
     downloadListFromPinata,
-    uploadFileResult, 
-    setUploadFileResult, 
-    uploadJsonResult, 
-    setUploadJsonResult 
+    uploadFileResult,
+    setUploadFileResult,
+    uploadJsonResult,
+    setUploadJsonResult
   };
 }

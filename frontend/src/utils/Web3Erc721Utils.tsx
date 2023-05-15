@@ -313,6 +313,7 @@ export function useContractLoadNfts() {
   return { loading, 
            setLoading, 
            data, 
+           setData,
            loadNfts
          }
 }

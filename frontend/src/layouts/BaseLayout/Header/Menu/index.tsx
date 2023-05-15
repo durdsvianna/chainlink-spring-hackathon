@@ -94,32 +94,39 @@ function HeaderMenu() {
             component={NavLink}
             to="/dapp"
           >
-            <img src="../../../nft-logo.png" alt="WarrantyNFtService" />
-          </ListItem>
-          {loading ? (
-            <SuspenseLoader />
-          ) : isLeader ? (
-            isConnected && (
-              <>
-                <ListItem
-                  classes={{ root: 'MuiListItem-indicators' }}
-                  button
-                  component={NavLink}
-                  to="/dapp/activities"
-                >
-                  <ListItemText
-                    primaryTypographyProps={{ noWrap: true }}
-                    primary={
-                      <Typography
-                        color={'white'}
-                        sx={{ '&:hover': { color: '#929397' } }}
-                      >
-                        Manage
-                      </Typography>
-                    }
-                  />
-                </ListItem>
-              </>
+            <img src="../../../web3dev.png" alt="Web3Dev" />
+          </ListItem>          
+          { loading ? <SuspenseLoader />
+           :
+            isLeader ?
+            isConnected &&  (<>
+              <ListItem
+                classes={{ root: 'MuiListItem-indicators' }}
+                button
+                component={NavLink}
+                to="/dapp/warranties"
+              >
+                <ListItemText 
+                  primaryTypographyProps={{ noWrap: true }}
+                  primary={ 
+                  <Typography color={'white'} sx={{ "&:hover": { color: "green" } }}>Warranties</Typography>
+                  }
+                />
+              </ListItem>
+              <ListItem
+                classes={{ root: 'MuiListItem-indicators' }}
+                button
+                component={NavLink}
+                to="/dapp/activities"
+              >
+                <ListItemText 
+                  primaryTypographyProps={{ noWrap: true }}
+                  primary={ 
+                  <Typography color={'white'} sx={{ "&:hover": { color: "green" } }}>Activities</Typography>
+                  }
+                />
+              </ListItem>              
+            </>
             )
           ) : (
             <></>

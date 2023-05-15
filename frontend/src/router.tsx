@@ -39,6 +39,19 @@ const UserSettings = Loader(
   lazy(() => import('src/content/applications/Users/settings'))
 );
 
+const Warranties = Loader(
+  lazy(() => import('src/content/applications/Warranties/warranties'))
+);
+const Warranty = Loader(
+  lazy(() => import('src/content/applications/Warranties/warranty'))
+);
+const WarrantyDetails = Loader(
+  lazy(() => import('src/content/applications/Warranties/warranty-details'))
+);
+const WarrantySettings = Loader(
+  lazy(() => import('src/content/applications/Warranties/settings'))
+);
+
 const Activities = Loader(
   lazy(() => import('src/content/applications/Activities/activities'))
 );
@@ -131,6 +144,34 @@ const routes: RouteObject[] = [
       {
         path: '/dapp/activity-settings/edit/:tokenId',
         element: <ActivitySettings />
+      },
+      {
+        path: '/dapp/warranties',
+        element: <Warranties />
+      },
+      {
+        path: '/dapp/warranty',
+        element: <Warranty />
+      },
+      {
+        path: '/dapp/warranty-details',
+        element: <WarrantyDetails />
+      },
+      {
+        path: '/dapp/warranty-details/:tokenId',
+        element: <WarrantyDetails />
+      },
+      {
+        path: '/dapp/warranty/:tokenId',
+        element: <Warranty />
+      },
+      {
+        path: '/dapp/warranty-settings',
+        element: <WarrantySettings />
+      },
+      {
+        path: '/dapp/warranty-settings/edit/:tokenId',
+        element: <WarrantySettings />
       },
       {
         path: '/dapp/profile',

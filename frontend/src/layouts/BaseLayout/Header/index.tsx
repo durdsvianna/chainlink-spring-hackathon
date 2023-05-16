@@ -1,5 +1,3 @@
-import { useContext } from 'react';
-
 import {
   Box,
   alpha,
@@ -9,14 +7,13 @@ import {
   styled,
   useTheme
 } from '@mui/material';
-import { SidebarContext } from 'src/contexts/SidebarContext';
 
 import HeaderButtons from './Buttons';
 import HeaderUserbox from './Userbox';
 import HeaderUserConnect from './UserConnect';
 import HeaderMenu from './Menu';
 
-import { useConnect, useDisconnect, useAccount } from 'wagmi';
+import { useDisconnect, useAccount } from 'wagmi';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -38,8 +35,7 @@ const HeaderWrapper = styled(Box)(
 
 function Header() {
   const theme = useTheme();
-  const { address, connector, isConnected } = useAccount()
-  const  { connect, connectors, error, isLoading, pendingConnector } = useConnect();
+  const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
 
   return (
@@ -62,28 +58,26 @@ function Header() {
               )}`
       }}
     >
-    
-      <> 
+      <>
         <Stack
           direction="row"
           divider={<Divider orientation="vertical" flexItem />}
           alignItems="center"
           spacing={2}
         >
-          <HeaderMenu/>
+          <HeaderMenu />
         </Stack>
-        { isConnected ? (
+        {isConnected ? (
           <Box display="flex" alignItems="center">
             <HeaderButtons />
-            { isConnected && <HeaderUserbox disconnect={  disconnect }/> }            
-          </Box> 
-          ) : (
-            <Box display="flex" alignItems="center">
-              <HeaderUserConnect />
-            </Box>
-          )
-        }
-      </>            
+            {isConnected && <HeaderUserbox disconnect={disconnect} />}
+          </Box>
+        ) : (
+          <Box display="flex" alignItems="center">
+            <HeaderUserConnect />
+          </Box>
+        )}
+      </>
     </HeaderWrapper>
   );
 }

@@ -18,7 +18,7 @@ function Footer() {
       >
         <Box>
           <Typography variant="subtitle1">
-            &copy; 2023 - Web3Dev Admin Activities Dashboard
+            &copy; 2023 - Warranty NFT Service Admin Dashboard
           </Typography>
         </Box>
         <Typography
@@ -28,11 +28,7 @@ function Footer() {
           variant="subtitle1"
         >
           Crafted by{' '}
-          <Link
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link href="#" target="_blank" rel="noopener noreferrer">
             unidosdoethsamba.com
           </Link>
         </Typography>

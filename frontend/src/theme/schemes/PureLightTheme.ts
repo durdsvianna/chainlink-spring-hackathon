@@ -2,7 +2,7 @@ import { alpha, createTheme, lighten, darken } from '@mui/material';
 import '@mui/lab/themeAugmentation';
 
 const themeColors = {
-  primary: '#4ce577',
+  primary: '#375bd2',
   secondary: '#7d7d7d',
   success: '#57CA22',
   warning: '#FFA319',
@@ -244,7 +244,7 @@ export const PureLightTheme = createTheme({
   },
   header: {
     height: '100px',
-    background: '#171717',
+    background: '#131921',
     boxShadow: colors.shadows.cardSm,
     textColor: colors.secondary.main
   },

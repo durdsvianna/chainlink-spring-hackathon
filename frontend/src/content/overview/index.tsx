@@ -1,7 +1,6 @@
-import { Box, Container, styled} from '@mui/material';
+import { Box, Container, styled } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
 import MediaNft from 'src/components/Nfts/MediaNft';
-
 import Footer from 'src/components/Footer';
 import { useEffect, useState } from 'react';
 import SuspenseLoader from 'src/components/SuspenseLoader';
@@ -9,6 +8,7 @@ import { useContractLoadNfts } from 'src/utils/Web3Erc721Utils';
 import { NftOrder } from 'src/models/nft_order';
 
 function Overview() {
+
   const { loading, setLoading, loadNfts, quantity } = useContractLoadNfts();
   const [ data, setData ] = useState<NftOrder[]>(null);
 
@@ -35,7 +35,6 @@ function Overview() {
   },[])
 
 
-
   useEffect(() =>{
     //if (data) console.log("data.length", data.length)
     console.log("loading", loading)
@@ -45,7 +44,7 @@ function Overview() {
   return (
     <OverviewWrapper>
       <Helmet>
-        <title>Web3Dev Marketplace</title>
+        <title>Warranty NFTservice</title>
       </Helmet>
       <Container maxWidth="lg">
       {

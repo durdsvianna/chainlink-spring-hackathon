@@ -3,24 +3,14 @@ import {
   Card,
   CardHeader,
   Divider,
-  List,
   ListItem,
   ListItemAvatar,
   ListSubheader,
   ListItemText,
   Avatar,
-  useTheme,
-  styled,
+  useTheme
 } from '@mui/material';
-
-const ListWrapper = styled(List)(
-  () => `
-      .MuiListItem-root {
-        border-radius: 0;
-        margin: 0;
-      }
-`
-);
+import { ListWrapper } from './StyledImports';
 
 function PopularTags() {
   const theme = useTheme();

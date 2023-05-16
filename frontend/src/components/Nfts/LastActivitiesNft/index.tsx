@@ -69,8 +69,10 @@ export default function LastActivitiesNft({ data }) {
     useEffect(() => {
         console.log("slicing data..")
         //const sData = [...data]; // spreading will return a new array
-        setSliceData(data.slice(0,3));
-        console.log("slice data (0,3) = ", sliceData);
+        if (data) {
+          setSliceData(data.slice(0,3));
+          console.log("slice data (0,3) = ", sliceData);
+        }        
       }, [])
 
     return(

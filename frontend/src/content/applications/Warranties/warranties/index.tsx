@@ -10,30 +10,38 @@ import LastWarranties from './LastWarranties';
 
 import { useContractLoadLastNft, useContractLoadNfts, useErc721Contract } from "src/utils/Web3Erc721Utils"
 import SuspenseLoader from 'src/components/SuspenseLoader';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { NftOrder } from 'src/models/nft_order';
 
 function ApplicationsWarranties() {
-  const { loading, setLoading, data, loadNfts } = useContractLoadNfts();
+  const { loading, setLoading, loadNfts } = useContractLoadNfts();
+  const [ data, setData ] = useState<NftOrder[]>(null);
   const { loadingLastToken, setLoadingLastToken, lastToken, loadLastNft } = useContractLoadLastNft();
   const { balance } = useErc721Contract();
 
-  async function loadData() {
-    setLoading(true);
-    setLoadingLastToken(true)
-    loadNfts().then(result => {
-      loadLastNft().then(result => {        
-      });     
-    });    
-    setLoading(false);    
-    setLoadingLastToken(false)
-  }
+  // async function loadData() {
+        
+  // }
 
   useEffect(() => {
-    if (!loading || !loadingLastToken){
-      if (data.length <= 0 )
-        if(lastToken == null) 
-          loadData();  
-    }
+      setLoadingLastToken(true)      
+      loadLastNft().then(result => {                  
+        setLoadingLastToken(false)      
+      });
+      
+      //loadData();                 
+      setLoading(true);  
+      loadNfts().then(result => {
+        console.log("result", result)
+        setTimeout(()=>{
+          setData(result);
+          setLoading(false);  
+          console.log("data", data)
+        },2000)        
+        
+      })    
+       
+        
     },[])
 
   return (
@@ -44,9 +52,8 @@ function ApplicationsWarranties() {
       <PageTitleWrapper>
         <PageHeader />
       </PageTitleWrapper>
-      {loading 
-      ? <SuspenseLoader />
-      : 
+      {(!loading && !loadingLastToken) 
+      ? 
         <Container maxWidth="lg">
           <Grid
             container
@@ -59,13 +66,16 @@ function ApplicationsWarranties() {
               <AccountBalance lastToken={lastToken} balance={balance}/>
             </Grid>
             <Grid item xs={12}>
-              <LastWarranties data={data}/>
+              { data && <LastWarranties data={data}/> }
             </Grid>
             <Grid item xs={12}>            
-              <Warranties data={data}/>
+              { data && <Warranties data={data}/> }
             </Grid>
           </Grid>
         </Container>
+
+      : 
+        <SuspenseLoader />        
       }     
       <Footer />
     </>

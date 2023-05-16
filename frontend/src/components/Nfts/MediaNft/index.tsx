@@ -1,43 +1,23 @@
 import {Card, CardActions, CardContent, CardMedia, Button, Typography, Box, Grid } from '@mui/material';
 import { Key, ReactChild, ReactFragment, ReactPortal, useEffect, useState } from 'react';
 import SuspenseLoader from 'src/components/SuspenseLoader';
-import { useContractLoadNfts } from 'src/utils/Web3Erc721Utils';
 
-export default function MediaNft() {
-  const { loading, setLoading, data, loadNfts } = useContractLoadNfts();
+
+export default function MediaNft({ data }) {
   
   const handleButtonNftDetails = (tokenId) => {
     window.location.href = "/dapp/activity-details/"+tokenId;
   }
 
-  async function loadData() {
-    setLoading(true);
-    loadNfts().then(result => result);
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    if (!loading)
-        if (data.length <= 0) 
-          loadData(); 
-
-  },[])
-
-  useEffect(() =>{
-    console.log("data", data)
-    console.log("loading", loading)
-  }, [loading, data])
+  
 
     return (
       <Box 
         sx={{
           marginTop: 4,
-        }}>
-        {loading ? <SuspenseLoader />
-          :
-          (
+        }}>       
             <Grid container spacing={2}>
-              {data.map((data, index) => (
+              {data && data.map((data, index) => (
                 <Grid item xs={12} sm={6} md={6} lg={4} key={index}>
                   <Card sx={{ maxWidth: 345 }}>
                     <CardMedia
@@ -63,9 +43,7 @@ export default function MediaNft() {
                   </Card>
                 </Grid>
               ))}
-            </Grid>
-          )
-          }
+            </Grid>          
       </Box>            
     );
   }

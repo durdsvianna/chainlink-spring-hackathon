@@ -3,7 +3,7 @@ import {Card, CardActions, CardActionArea, CardContent, CardMedia, Button,Toolti
 export default function LastActivityDisplayNft( {lastToken}) {
 
     const handleButtonActivityDetails = () => {
-      window.location.href = "/dapp/activity-details";
+      window.location.href = "/dapp/activity-details/"+lastToken.tokenId;
     };
 
     const handleButtonActivityEdit = () => {

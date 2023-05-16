@@ -204,11 +204,8 @@ export function useContractLoadLastNft() {
       try {
         const nftQuantity = await contract.idCounter();  
         const uri = await contract.tokenURI(nftQuantity.toNumber()-1);
-        console.log("uri", uri);
         const nftOwner = await contract.ownerOf(nftQuantity.toNumber()-1); 
-        console.log("nftOwner", nftOwner);
         const metadblata = downloadJsonFromPinata(ipfsGateway+uri).then(result => {
-          console.log("result", result);        
           const activityJson = JSON.parse(result);
           let rewards:string 
           let creator:string
@@ -234,7 +231,6 @@ export function useContractLoadLastNft() {
               difficulty: 'Avancado',
             };         
           setLastToken(nftOrder);  
-          console.log("nftOrder", nftOrder);
         });        
       } catch (error) {
         console.log("error", error);
@@ -251,16 +247,19 @@ export function useContractLoadLastNft() {
 }
 
 export function useContractLoadNfts() {
-  const [loading, setLoading] = useState(false);
-  const [ data, setData ] = useState<NftOrder[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(0);
   const { downloadJsonFromPinata, downloadListFromPinata } = useIpfsUploader();    
   
-  async function loadNfts () : Promise<void> {  
+  async function loadNfts () : Promise<NftOrder[]> {  
     if (contract != null) {
       try {          
         const nftQuantity = await contract.idCounter();  
         let lastsUriMints: [{tokenId: number; tokenUri: string, owner: string }] = [{tokenId: -1, tokenUri: '', owner: ''}];
         let max = nftQuantity.toNumber();
+
+        setQuantity(max);
+        console.log("quantity", quantity)
         for(let i = max ; i > 0; i--) {             
           const uri = await contract.tokenURI(nftQuantity.toNumber()-i);
           const nftOwner = await contract.ownerOf(nftQuantity.toNumber()-1); 
@@ -270,6 +269,7 @@ export function useContractLoadNfts() {
             owner:nftOwner
           })            
         }        
+        console.log("lastsUriMints", lastsUriMints)
         let nfts: NftOrder[] = [];
         lastsUriMints.slice().reverse().forEach(async token => {          
           if (token.tokenId >= 0) {
@@ -297,12 +297,10 @@ export function useContractLoadNfts() {
                 bounty: parseInt(rewards),
                 difficulty: 'Avancado',
               };
-            nfts.push(nftOrder)   
-            
+            nfts.push(nftOrder)               
           }            
         }); 
-        console.log(nfts);          
-        setData(nfts);
+        return nfts;
       } catch (error) {
         console.log("error", error)
         return;
@@ -312,9 +310,8 @@ export function useContractLoadNfts() {
 
   return { loading, 
            setLoading, 
-           data, 
-           setData,
-           loadNfts
+           loadNfts,
+           quantity
          }
 }
 

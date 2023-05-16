@@ -65,7 +65,7 @@ const applyFilters = (
   nfts: NftOrder[],
   filters: Filters
 ): NftOrder[] => {
-  return nfts.filter((nft) => {
+  return nfts && nfts.filter((nft) => {
     let matches = true;
 
     if (filters.status && nft.status !== filters.status) {
@@ -81,7 +81,7 @@ const applyPagination = (
   page: number,
   limit: number
 ): NftOrder[] => {
-  return nfts.slice(page * limit, page * limit + limit);
+  return nfts && nfts.slice(page * limit, page * limit + limit);
 };
 
 const WarrantiesTable: FC<RecentNftsTableProps> = ({ nfts }) => {
@@ -173,7 +173,7 @@ const WarrantiesTable: FC<RecentNftsTableProps> = ({ nfts }) => {
     limit
   );
   const selectedSomeNfts = selectedNfts.length > 0 && selectedNfts.length < nfts.length;
-  const selectedAllNfts = selectedNfts.length === nfts.length;
+  const selectedAllNfts = selectedNfts.length === (nfts && nfts.length);
   const theme = useTheme();
 
   return (
@@ -229,7 +229,7 @@ const WarrantiesTable: FC<RecentNftsTableProps> = ({ nfts }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCryptoOrders.map((nft) => {
+            {paginatedCryptoOrders && paginatedCryptoOrders.map((nft) => {
               const isNftSelected = selectedNfts.includes(
                 nft.tokenId
               );

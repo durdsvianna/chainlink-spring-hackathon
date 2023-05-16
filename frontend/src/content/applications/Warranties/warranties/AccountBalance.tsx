@@ -8,7 +8,7 @@ const AccountBalance = ({ lastToken, balance }) => {
     <Card>
       <Grid spacing={0} container>
         <AccountBalanceNft balance={balance}/>
-        <LastActivityDisplayNft lastToken={lastToken}/>
+        {lastToken && <LastActivityDisplayNft lastToken={lastToken}/>}
       </Grid>
     </Card>
   );

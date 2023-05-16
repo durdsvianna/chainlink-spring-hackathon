@@ -1,23 +1,13 @@
 import { Helmet } from 'react-helmet-async';
 import Footer from 'src/components/Footer';
-
-import { Grid, Container, Tab, Tabs, styled } from '@mui/material';
-
+import { Grid, Container, Tab } from '@mui/material';
 import ProfileCover from './ProfileCover';
-
 import RecentActivity from 'src/components/RecentActivity';
-import UserProfile  from 'src/components/User/UserProfile';
+import UserProfile from 'src/components/User/UserProfile';
 import EditProfile from './EditProfile';
 import { ChangeEvent, useState } from 'react';
 import { useErc721Contract } from 'src/utils/Web3Erc721Utils';
-
-const TabsWrapper = styled(Tabs)(
-  () => `
-    .MuiTabs-scrollableX {
-      overflow-x: auto !important;
-    }
-`
-);
+import { TabsWrapper } from './StyledImports';
 
 function ManagementUserProfile() {
   const user = UserProfile();
@@ -27,12 +17,12 @@ function ManagementUserProfile() {
   const tabs = [
     { value: 'user-profile', label: 'Profile' },
     { value: 'user-profile-edit', label: 'Edit Profile' }
-  ];  
-  
+  ];
+
   const handleTabsChange = (event: ChangeEvent<{}>, value: string): void => {
     setCurrentTab(value);
   };
-  
+
   return (
     <>
       <Helmet>
@@ -60,15 +50,14 @@ function ManagementUserProfile() {
               ))}
             </TabsWrapper>
           </Grid>
-          
+
           <Grid item xs={12} md={8}>
-            {currentTab === 'user-profile' && <ProfileCover user={user} /> }
-            {currentTab === 'user-profile-edit' && <EditProfile user={user}/>}
+            {currentTab === 'user-profile' && <ProfileCover user={user} />}
+            {currentTab === 'user-profile-edit' && <EditProfile user={user} />}
           </Grid>
           <Grid item xs={12} md={4}>
             {currentTab === 'user-profile' && <RecentActivity data={data} />}
           </Grid>
-
         </Grid>
       </Container>
       <Footer />

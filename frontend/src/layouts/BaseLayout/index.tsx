@@ -3,8 +3,6 @@ import { Box, alpha, lighten, useTheme } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import SuspenseLoader from 'src/components/SuspenseLoader';
-import { useAccount } from 'wagmi'
-import { useErc721Contract } from 'src/utils/Web3Erc721Utils';
 
 const Loader = (Component) => (props) =>
   (
@@ -16,7 +14,6 @@ const Loader = (Component) => (props) =>
 // Pages
 
 const Overview = Loader(lazy(() => import('src/content/overview')));
-
 
 interface BaseLayoutProps {
   children?: ReactNode;
@@ -54,20 +51,20 @@ const BaseLayout: FC<BaseLayoutProps> = () => {
           }
         }}
       >
-        <Header />  
-          <Box
-            sx={{
+        <Header />
+        <Box
+          sx={{
             position: 'relative',
             zIndex: 5,
             display: 'block',
             flex: 1
-            }}
-          >
-            <Box display="block">
-              <Outlet />
-            </Box>
+          }}
+        >
+          <Box display="block">
+            <Outlet />
           </Box>
-      </Box>      
+        </Box>
+      </Box>
     </>
   );
 };

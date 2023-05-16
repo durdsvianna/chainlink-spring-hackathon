@@ -1,4 +1,4 @@
-import { Box, Container, styled} from '@mui/material';
+import { Box, Container, styled } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
 import MediaNft from 'src/components/Nfts/MediaNft';
 
@@ -7,7 +7,6 @@ import { useEffect } from 'react';
 import SuspenseLoader from 'src/components/SuspenseLoader';
 
 function Overview() {
- 
   const OverviewWrapper = styled(Box)(
     () => `
       overflow: auto;
@@ -17,14 +16,13 @@ function Overview() {
           `
   );
 
-
   return (
     <OverviewWrapper>
       <Helmet>
-        <title>Web3Dev Marketplace</title>
+        <title>Warranty NFTservice</title>
       </Helmet>
       <Container maxWidth="lg">
-        <MediaNft/>        
+        <MediaNft />
       </Container>
       <Footer />
     </OverviewWrapper>

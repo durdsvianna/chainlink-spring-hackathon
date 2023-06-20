@@ -9,7 +9,7 @@ const ether = (amount) => {
   return BigNumber.from(weiString);
 };
 
-!developmentChains.includes(network.name)
+developmentChains.includes(network.name)
     ? describe.skip
     : describe("NftERC721 contract", function () {
       // We define a fixture to reuse the same setup in every test. We use

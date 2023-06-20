@@ -38,7 +38,7 @@ module.exports = {
     solidity: {
         compilers: [
             {
-                version: "0.8.9",
+                version: "0.8.13",
                 COMPILER_SETTINGS,
             },
             {
@@ -77,7 +77,7 @@ module.exports = {
         },
         goerli: {
             url: GOERLI_RPC_URL !== undefined ? GOERLI_RPC_URL : "",
-            //accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+            accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
             //   accounts: {
             //     mnemonic: MNEMONIC,
             //   },
@@ -98,7 +98,7 @@ module.exports = {
         },
         mumbai: {
             url: MUMBAI_RPC_URL,
-            //accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+            accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
             chainId: 80001,
         },
     },

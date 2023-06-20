@@ -82,7 +82,7 @@ function MintInfoTab({ data }) {
     setPage(0);
   };
 
-    function handleBurnActivity() {
+  function handleBurnActivity() {
     setLoading(true);
     Burning(data.tokenId)
       .then(() => {

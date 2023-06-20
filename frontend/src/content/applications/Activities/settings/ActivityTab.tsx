@@ -120,7 +120,7 @@ function ActivityTab({ data }) {
 
   const mintNft = async (tokenUri, to) => {
     setLoading(true);
-    safeMint(to, tokenUri, "1");
+    safeMint(to, tokenUri, "0");
     setLoading(false);
     
   }

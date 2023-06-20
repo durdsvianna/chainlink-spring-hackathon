@@ -7,7 +7,7 @@ function LastWarranties({ data }) {
   const [, updateState] = useState({});
   const forceUpdate = useCallback(() => updateState({}), []);
   const handleButtonCreateActivity = () => {
-    window.location.href = "/dapp/activity-settings";
+    window.location.href = "/dapp/warranty-settings";
   };
 
   useEffect(() => {

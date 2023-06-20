@@ -1,7 +1,10 @@
+import { useState, useEffect } from 'react';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography, Box, Grid } from '@mui/material';
 import SuspenseLoader from 'src/components/SuspenseLoader';
 import DetailsDescriptionNft from 'src/content/applications/Activities/activity-details/DetailsDescriptionNft';
 import { styled } from '@mui/material/styles';
+import { createAccount } from "@tokenbound/sdk-ethers";
+ 
 
 const CardActionsWrapper = styled(CardActions)(
   ({ theme }) => `
@@ -10,13 +13,24 @@ const CardActionsWrapper = styled(CardActions)(
 `
 );
 
-export default function ActivityDetailsNft({ data, loading, tokenId}) {
-
-
+export default function ActivityDetailsNft({ data, loading, tokenId, tokenContract, signer}) {
+  const [hashAccount, setHashAccount] = useState<{}>({});
+  
+  const onDployAccount = async (event: { preventDefault: () => void; }) => {
+    
+    setHashAccount(await createAccount(
+      tokenContract, // ERC-712 contract address
+      tokenId, // ERC-721 token ID
+      signer // ethers signer 
+    ));
+    
+  };
+  
   return (
     <>
       {console.log('STATUS LOADING MEDIA NFT INITIAL = ', loading)}
       {console.log('dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa = ', data)}
+      {console.log('hashAccount= ', hashAccount)}
 
      
         <Box
@@ -55,8 +69,8 @@ export default function ActivityDetailsNft({ data, loading, tokenId}) {
                     <Box>              
                     </Box>
                     <Box sx={{ mt: { xs: 2, md: 0 } }}>
-                      <Button type="submit" variant="contained">
-                        Buy Activity
+                      <Button onClick={onDployAccount} variant="contained">
+                        Deploy Account
                       </Button>
                     </Box>
                   </CardActionsWrapper>

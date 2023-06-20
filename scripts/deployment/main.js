@@ -12,9 +12,9 @@ const { deployNftERC721 } = require("./deployNftERC721")
 async function main() {
     await run("compile")
     const chainId = network.config.chainId
-    await deployTokenShop(chainId)
+    //await deployTokenShop(chainId)
     await deployNftERC721(chainId)
-   
+    //await deployAccount(chainId)
 }
 
 // We recommend this pattern to be able to use async/await everywhere

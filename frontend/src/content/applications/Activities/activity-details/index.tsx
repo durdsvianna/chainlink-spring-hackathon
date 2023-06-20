@@ -1,17 +1,20 @@
 import Footer from 'src/components/Footer';
 import { Helmet } from 'react-helmet-async';
-
+import { ethers } from 'ethers';
 import { Grid, Container, Card } from '@mui/material';
 
 import ActivityDetailsNft from 'src/components/Nfts/ActivityDetailsNft';
 import { useContractLoadTokenId } from 'src/utils/Web3Erc721Utils';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
+import contractAddress from "src/contracts/contract-nfterc721-address.json";
 
 function ActivityDetails() {
   const { data, loading, setLoading, loadNft } = useContractLoadTokenId();
   const {tokenId} = useParams();
   console.log('tokenId = ', tokenId);
+
+  const provider = new ethers.providers.Web3Provider(window.ethereum); 
 
   async function loadData() {
     setLoading(true);
@@ -42,7 +45,7 @@ function ActivityDetails() {
         >
 
               <Grid item xs={12} md={12} >
-                <ActivityDetailsNft data={data} loading={loading} tokenId={tokenId}/>
+                <ActivityDetailsNft data={data} loading={loading} tokenId={tokenId} tokenContract={contractAddress.NftERC721} signer={provider.getSigner()}/>
               </Grid>    
               
         </Grid>

@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import {ECDSA} from  "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
-contract NftERC721 is ERC721, ERC721URIStorage, AccessControl, IERC721Receiver {
+contract WarrantyERC721 is ERC721, ERC721URIStorage, AccessControl, IERC721Receiver {
 
     struct Activity {
         uint256 tokenId;
@@ -168,7 +168,7 @@ contract NftERC721 is ERC721, ERC721URIStorage, AccessControl, IERC721Receiver {
      * Emits a {NftMinted} event.
      */
     function safeMint(address to, string memory ipfsUri) public payable virtual onlyRole(LEADER_ROLE) {
-        //require(msg.value >= 1, "Not enough ETH sent; check price!");
+        require(msg.value >= 1, "Not enough ETH sent; check price!");
         uint256 tokenId = tokenIdCounter.current();
         tokenIdCounter.increment();
         _safeMint(to, tokenId);

@@ -19,15 +19,16 @@ const TabsWrapper = styled(Tabs)(
 `
 );
 
-function ManagementWarrantySettings() {
-  const [currentTab, setCurrentTab] = useState<string>('activity');
+function WarrantySettings() {
+  const [currentTab, setCurrentTab] = useState<string>('warranties');
   const { tokenId } = useParams();
   const { data, loading, setLoading, loadNft } = useContractLoadTokenId();
   
 
   const tabs = [
-    { value: 'activity', label: 'Activity Info' },
-    { value: 'mint-info', label: 'Mint Info' }
+    { value: 'warranties', label: 'Warranties' },
+    { value: 'products', label: 'Products' },
+    { value: 'product-batches', label: 'Product Batches' },
   ];
 
   const handleTabsChange = (event: ChangeEvent<{}>, value: string): void => {
@@ -58,7 +59,7 @@ function ManagementWarrantySettings() {
   return (
     <>
       <Helmet>
-        <title>Activity Settings - Applications</title>
+        <title>Warranty Settings - Configuration Panel</title>
       </Helmet>
       <PageTitleWrapper>
         <PageHeader />
@@ -87,13 +88,14 @@ function ManagementWarrantySettings() {
                   indicatorColor="primary"
                 >
                   {tabs.map((tab) => (
-                    <Tab key={tab.value} label={tab.label} value={tab.value} disabled={tokenId == null && tab.value == 'mint-info'}/>
+                    <Tab key={tab.value} label={tab.label} value={tab.value}/>
                   ))}
                 </TabsWrapper>
               </Grid>
               <Grid item xs={12}>
-                {currentTab === 'activity' && <WarrantyTab data={data} />}
-                {data && currentTab === 'mint-info' && <MintInfoTab data={data}/>}
+                {currentTab === 'warranties' && <WarrantyTab data={data} />}
+                {currentTab === 'products' && <MintInfoTab data={data} />}
+                {currentTab === 'product-batches' && <MintInfoTab data={data}/>}
               </Grid>
             </Grid>
           </Container>
@@ -104,4 +106,4 @@ function ManagementWarrantySettings() {
   );
 }
 
-export default ManagementWarrantySettings;
+export default WarrantySettings;

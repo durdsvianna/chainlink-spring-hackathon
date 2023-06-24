@@ -38,6 +38,7 @@ export function useIpfsUploader() {
     console.log('JWT', JWT);
     const formData = new FormData();
     formData.append('file', file);
+    console.log('ok', JWT);
     const metadata = JSON.stringify({
       name: file.name
     });

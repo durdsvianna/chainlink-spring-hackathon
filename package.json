@@ -44,6 +44,7 @@
     "@tokenbound/sdk-ethers": "^0.2.0",
     "alchemy-sdk": "^2.9.0",
     "dotenv": "^16.0.3",
+    "react-swipeable-views": "^0.14.0",
     "wagmi": "^0.12.10"
   },
   "lint-staged": {

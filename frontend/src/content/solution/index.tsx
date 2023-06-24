@@ -6,9 +6,10 @@ import { useEffect, useState } from 'react';
 import SuspenseLoader from 'src/components/SuspenseLoader';
 import { useContractLoadNfts } from 'src/utils/Web3Erc721Utils';
 import { NftOrder } from 'src/models/nft_order';
-import HorizontalLinearStepper from 'src/components/Stepper';
+import Carousel from 'src/components/Carousel'
+import SimplePaper from 'src/components/Paper';
 
-function Overview() {
+function Solution() {
 
   const { loading, setLoading, loadNfts, quantity } = useContractLoadNfts();
   const [data, setData] = useState<NftOrder[]>(null);
@@ -37,36 +38,39 @@ function Overview() {
 
 
   useEffect(() => {
-    //if (data) console.log("data.length", data.length)
     console.log("loading", loading)
     console.log("quantity", quantity)
   }, [data, loading])
 
   return (
     <>
-    <OverviewWrapper>
-      <Helmet>
-        <title>W3 RECICLE - HOME</title>
-      </Helmet>
-      <Container maxWidth="lg">
+      <OverviewWrapper>
+        <Helmet>
+          <title>W3 RECICLE - SOLUTION</title>
+        </Helmet>
+        <Container maxWidth="lg">
 
-        <Box>
-        <HorizontalLinearStepper />
-        </Box>
-        
-        <Box sx={{
-        width: 632,
-        height: 71,
-        marginTop: 10,
-      }}>
-        <Typography variant="h1" component="h2" color="#B56926" >  Unimos tecnologia à conscientização sustentável da população</Typography>
-        </Box>
-        
-      </Container>
-      <Footer />
-    </OverviewWrapper>
+          <Box sx={{
+            width: 632,
+            height: 'maxContent',
+            marginTop: 10,
+          }}>
+            <Typography variant="h1" component="h2" color="#B56926" >  Unimos tecnologia à conscientização sustentável da população</Typography>
+          </Box>
+          
+          <Box
+            display='flex'
+            justifyContent='center'
+            alignItems='center'
+            padding='3%'>
+            <Carousel />
+          </Box>
+
+        </Container>
+        <Footer />
+      </OverviewWrapper>
     </>
   );
 }
 
-export default Overview;
+export default Solution;

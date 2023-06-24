@@ -5,21 +5,16 @@ import { NumericFormat, NumericFormatProps } from 'react-number-format';
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { Box, TextField, CardMedia, Typography, Card, CardHeader, Divider, Button, CardActions} from '@mui/material';
+import { Box, TextField, CardMedia, Typography, Card, CardHeader, Divider, Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
-import { Dayjs } from 'dayjs';
-import { DatePicker, DatePickerProps } from '@mui/x-date-pickers';
 import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 import { useIpfsUploader } from "src/utils/IpfsUtils"
 import { useMintToken } from "src/utils/Web3Erc721Utils"
 import { useDateFormatter } from 'src/utils/DateUtils';
-import { useSigner, useProvider, usePrepareContractWrite, useContractWrite } from 'wagmi';
-import NftERC721Artifact from "src/contracts/NftERC721.json";
-import contractAddress from "src/contracts/contract-nfterc721-address.json";
+import { useSigner } from 'wagmi';
 import UserProfile from 'src/components/User/UserProfile';
-
-import {Alert, CardActionsWrapper, CardCover, CardCoverAction } from './StyleImports';
+import { Alert, CardActionsWrapper, CardCover, CardCoverAction } from './StyleImports';
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;
@@ -50,34 +45,26 @@ const NumericFormatCustom = forwardRef<NumericFormatProps, CustomProps>(
   },
 );
 
-const activityInitialStatus = [
-  {
-    value: '1',
-    label: 'Initial State'
-  },
-  {
-    value: '2',
-    label: 'Available'
-  }
-];
-const activityDificulties = [
-  {
-    value: '1',
-    label: 'Common'
-  },
-  {
-    value: '2',
-    label: 'Normal'
-  },
-  {
-    value: '3',
-    label: 'Complex'
-  }
+// Notebook | Tablet | Smartphone --> Produto ( SmartPhone )
+// Fabricantes --> Apple
+// Modelos de Smartphone do Fabricante --> Categoria do Produto ( 5S )
+
+const ProductFabricant = [
+{
+  value: '1', label: 'Apple'
+},
+{
+  value: '2', label: 'Samsung',
+},
+{
+  value: '3', label: 'Motorolla'
+}
 ];
 
 const schema = yup.object({
-  title: yup.string().required('Campo obrigatório.'),
-  description: yup.string().required('Campo obrigatório.'),
+  model: yup.string().required('Campo obrigatório.'),
+  Fabricante: yup.string().required('Campo obrigatório.'),
+  MEI: yup.string().required('Campo obrigatório.'),
 }).required();
 
 function ActivityTab({ data }) {
@@ -89,56 +76,47 @@ function ActivityTab({ data }) {
 
   const [openInformartion, setOpenInformartion] = useState(false);
   const [openError, setOpenError] = useState(false);
-  const [valueReward, setValueReward] = useState<number>(0);
-  const [activityStatus, setActivityStatus] = useState('');
-  const [activityDificulty, setActivityDificulty] = useState('');
-  const [description, setDescription] = useState('');
-  const [title, setTitle] = useState('');
-  const [expireDate, setExpireDate] = useState<DatePickerProps<Dayjs> | null>(null);
+  const [product, setProduct] = useState('');
+  const [model, setModel] = useState('');
+  const [mei, setMEI] = useState('');
   const [imageCover, setImageCover] = useState(bgimage);
   const [image, setImage] = useState<string | ArrayBuffer>();
   const [imageFile, setImageFile] = useState<File>();
   const [url, setUrl] = useState('src/images/image.svg');
-  const [uriMetadata, setUriMetadata] = useState({});
-  const [toAddress, setToAddress] = useState('');
   const [imageCoverLoaded, setImageCoverLoaded] = useState(false);
   const { data: signer, isError, isLoading } = useSigner();
-  //const provider = useProvider();
-  const [nft, setNft] = useState({
-    name: '',
-    description: '',
-    image: '',
-    external_url: process.env.REACT_APP_ERC721_METADATA_EXTERNAL_LINK,
-    background_color: '',
-    animation_url: '',
-    youtube_url: '',
-    attributes: []
-  });
+  
   const { uploadToInfura, uploadFileToPinata, uploadJsonToPinata, uploadFileResult, setUploadFileResult, uploadJsonResult, setUploadJsonResult } = useIpfsUploader();
   const { loading, setLoading, isMinted, safeMint } = useMintToken(uploadJsonResult);
   const { getFormattedDate, languageFormat, setLanguageFormat } = useDateFormatter('pt-BR');
+
+  // Produto é NFT
+  const [nft, setNft] = useState({
+    mei: '',
+    model: '',
+    image: '',
+    fabricant: '',
+    external_url: process.env.REACT_APP_ERC721_METADATA_EXTERNAL_LINK,
+    attributes: []
+  });
+
 
   const mintNft = async (tokenUri, to) => {
     setLoading(true);
     safeMint(to, tokenUri, "0");
     setLoading(false);
-    
+
   }
 
   const onSubmit = async (event: { preventDefault: () => void; }) => {
     nft.attributes = [...nft.attributes, {
-      trait_type: 'Expire Date',
-      value: expireDate
+      trait_type: 'Model',
+      value: model
     }];
 
     nft.attributes = [...nft.attributes, {
-      trait_type: 'Rewards',
-      value: valueReward
-    }];
-
-    nft.attributes = [...nft.attributes, {
-      trait_type: 'Creator',
-      value: creator
+      trait_type: 'MEI',
+      value: mei
     }];
 
     //armazena imagem IPFS
@@ -147,8 +125,6 @@ function ActivityTab({ data }) {
       setUploadFileResult(ipfsImageResult);
       nft.image = ipfsImageResult.IpfsHash.toString();
       console.log("ipfsImageResult", ipfsImageResult);
-      console.log("expireDate", expireDate);
-      console.log('Creator Activity Address', creator)
     } catch (error) {
       setOpenError(true);
       console.log("Erro: ", error);
@@ -181,33 +157,22 @@ function ActivityTab({ data }) {
     setOpenError(false);
   };
 
-  const handleChangeTitle = (event) => {
-    setTitle(event.target.value);
-    nft.name = event.target.value;
-  };
-  const handleChangeDescription = (event) => {
-    setDescription(event.target.value);
-    nft.description = event.target.value;
+  const handleChangeModel = (event) => {
+    setModel(event.target.value);
+    nft.model = event.target.value;
   };
 
-  const handleChangeStatus = (event) => {
-    setActivityStatus(event.target.value);
+  const handleChangeFabricant = (event) => {
+    setProduct(event.target.value);
     nft.attributes = [...nft.attributes, {
-      trait_type: 'Status',
-      value: event.target.value
+      trait_type: 'Fabricant',
+      value:  event.target.value
     }];
   };
 
-  const handleChangeDificulty = (event) => {
-    setActivityDificulty(event.target.value);
-    nft.attributes = [...nft.attributes, {
-      trait_type: 'Dificulty',
-      value: event.target.value
-    }];
-  };
-  const handleChangeReward = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(event.target.value);
-    setValueReward(value);
+  const handleChangeMEI = (event) => {
+    setMEI(event.target.value);
+    nft.mei = event.target.value;
   };
 
   const onDrop = useCallback(async (acceptedFiles) => {
@@ -252,7 +217,7 @@ function ActivityTab({ data }) {
         </Alert>
       </Snackbar>
       <Card>
-        <CardHeader title="Create activity and mint your NFT." />
+        <CardHeader title="Cadastre seu Eletroeletrônico" />
         <Box
           component="form"
           sx={{
@@ -278,11 +243,11 @@ function ActivityTab({ data }) {
                     <CardMedia
                       sx={{ minHeight: 280 }}
                       image={imageCoverLoaded ? url : imageCover}
-                      title="Activity NFT"
+                      title="Adicionar Eletroeletrônico"
                     />
                     <CardCoverAction>
                       <input {...getInputProps({ name: 'image' })} id="change-cover" multiple />
-                      <p className='text-slate-400 md:text-md text-center mt-4 text-sm'>Drag & Drop your image here</p>
+                      <p className='text-slate-400 md:text-md text-center mt-4 text-sm'>Adicionar Imagem</p>
                       <label htmlFor="change-cover">
                         <Button
                           startIcon={<UploadTwoToneIcon />}
@@ -297,9 +262,11 @@ function ActivityTab({ data }) {
                 </div>
               )
           }
-          <Box p={3}>
+          <Box p={3}
+          justifyContent='center'
+          textAlign='center'>
             <Typography variant="h2" sx={{ pb: 1 }}>
-              Create your activity quickly and easily
+              Adicionar Eletroeletrônico
             </Typography>
           </Box>
           <Divider />
@@ -308,7 +275,7 @@ function ActivityTab({ data }) {
             sx={{
               display: { xs: 12, md: 3 },
               alignItems: 'center',
-              justifyContent: 'space-between'
+              justifyContent: 'center'
             }}
           >
 
@@ -318,89 +285,73 @@ function ActivityTab({ data }) {
               }}
             >
               <div>
-                <TextField fullWidth {...register("title")}
+                <TextField fullWidth {...register("Fabricante")}
                   id="outlined-required"
-                  label={data && data.name ? '' : 'Title'}
-                  onChange={handleChangeTitle}
-                  placeholder={data && data.name ? '' : 'Title'}
+                  select
+                  label={data && data.product ? '' : 'Fabricante'}
+                  value={data && data.product ? data.product : product}
+                  onChange={handleChangeFabricant}
+                  disabled={data && data.tokenId >= 0 ? true : false}
+                  SelectProps={{
+                    native: true
+                  }}
+                >    
+                 {ProductFabricant.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}         
+                  </TextField> 
+
+            
+              </div>
+
+              <div>
+                <TextField fullWidth {...register("Tipo de Produto")}
+                  id="outlined-required"
+                  select
+                  label={data && data.product ? '' : 'Tipo de Produto'}
+                  value={data && data.product ? data.product : product}
+                  onChange={handleChangeFabricant}
+                  disabled={data && data.tokenId >= 0 ? true : false}
+                  SelectProps={{
+                    native: true
+                  }}
+                >    
+                 {ProductFabricant.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}         
+                  </TextField> 
+
+            
+              </div>
+
+              <div>
+                <TextField fullWidth {...register("model")}
+                  id="outlined-required"
+                  label={data && data.name ? '' : 'Modelo do Dispositivo'}
+                  onChange={handleChangeModel}
+                  placeholder={data && data.name ? '' : 'Ex: 5S'}
                   disabled={data && data.tokenId >= 0 ? true : false}
                   value={data && data.name}
                 />
                 <p>{errors.title?.message}</p>
               </div>
-              <div>
-                <TextField fullWidth {...register("description")}
-                  id="outlined-required"
-                  label={data && data.description ? '' : 'Description'}
-                  onChange={handleChangeDescription}
-                  placeholder={data && data.description ? '' : 'A full description about the ativity.'}
-                  multiline
-                  rows="6"
-                  disabled={data && data.tokenId >= 0 ? true : false}
-                  maxRows="18"
-                  value={data && data.description}
-                />
-                <p>{errors.description?.message}</p>
-              </div>
-              <div>
-                <DatePicker
-                  disabled={data && data.tokenId >= 0 ? true : false}
-                  label={data && data.dateLimit ? '' : 'Expire Date'}
-                  value={data && data.dateLimit ? data.dateLimit : expireDate}
-                  onChange={(newValue) => setExpireDate(newValue)}
-                />
-                <TextField
-                  id="outlined-select-currency-native"
-                  select
-                  label={data && data.status ? '' : 'Status of activity'}
-                  value={data && data.status ? data.status : activityStatus}
-                  onChange={handleChangeStatus}
-                  disabled={data && data.tokenId >= 0 ? true : false}
-                  SelectProps={{
-                    native: true
-                  }}
-                >
-                  {activityInitialStatus.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </TextField>
 
-                <TextField
-                  id="outlined-select-currency-native"
-                  select
-                  label={data && data.difficulty ? '' : 'Dificulty of activity'}
-                  value={data && data.difficulty ? data.difficulty : activityDificulty}
-                  disabled={data && data.tokenId >= 0 ? true : false}
-                  onChange={handleChangeDificulty}
-                  SelectProps={{
-                    native: true
-                  }}
-                >
-                  {activityDificulties.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </TextField>
-                <TextField
-                  id="outlined-required"
-                  label={data && data.creatorActivity ? '' : 'Creator'}
-                  disabled
-                  value={data && data.creatorActivity ? data.creatorActivity : creator}
-                />
 
-                <TextField {...register("valueReward")}
-                  label={data && data.bounty ? '' : 'Reward ($)'}
-                  value={data && data.bounty ? data.bounty : valueReward}
-                  onChange={handleChangeReward}
+              
+              <div> 
+              <TextField fullWidth {...register("MEI")}
+                  id="outlined-required"
+                  label={data && data.name ? '' : 'MEI'}
+                  onChange={handleChangeMEI}
+                  placeholder={data && data.name ? '' : 'Ex: ESP240623'}
                   disabled={data && data.tokenId >= 0 ? true : false}
-                  InputProps={{
-                    inputComponent: NumericFormatCustom as any,
-                  }}
+                  value={data && data.name}
                 />
-                <p>{errors.valueReward?.message}</p>
+                <p>{errors.title?.message}</p>
               </div>
             </Box>
           </CardActionsWrapper>

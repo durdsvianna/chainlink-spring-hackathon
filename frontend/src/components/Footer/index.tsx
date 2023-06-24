@@ -1,4 +1,8 @@
 import { Box, Container, Link, Typography, styled } from '@mui/material';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import { BsDiscord } from "react-icons/bs"
 
 const FooterWrapper = styled(Container)(
   ({ theme }) => `
@@ -15,10 +19,12 @@ function Footer() {
         alignItems="center"
         textAlign={{ xs: 'center', md: 'left' }}
         justifyContent="space-between"
+        height='400'
       >
+
         <Box>
           <Typography variant="subtitle1">
-            &copy; 2023 - Warranty NFT Service Admin Dashboard
+           &copy; 2023 - W3RECICLE
           </Typography>
         </Box>
         <Typography
@@ -29,10 +35,18 @@ function Footer() {
         >
           Crafted by{' '}
           <Link href="#" target="_blank" rel="noopener noreferrer">
-            unidosdoethsamba.com
+          W3RECICLE.com 
           </Link>
         </Typography>
       </Box>
+
+      <Box
+      display='flex'
+      justifyContent='right'
+      alignItems='center'
+      >        
+          <BsDiscord size="30"/> <TwitterIcon fontSize="large"/> <InstagramIcon fontSize="large"/> <LinkedInIcon fontSize="large"/>
+        </Box>
     </FooterWrapper>
   );
 }

@@ -26,14 +26,14 @@ function RecentActivity({data}) {
 
   return (
     <Card>
-      <CardHeader title="Atividades NFTs" />
+      <CardHeader title="Produtos" />
       <Divider />
       <Box px={2} py={4} display="flex" alignItems="flex-start">
         <AvatarPrimary>
           <ShoppingBagTwoToneIcon />
         </AvatarPrimary>
         <Box pl={2} flex={1}>
-          <Typography variant="h3">Atividades</Typography>
+          <Typography variant="h3">Meus produtos</Typography>
 
           <Box pt={2} display="flex">
             <Box pr={8}>
@@ -57,7 +57,7 @@ function RecentActivity({data}) {
         </AvatarPrimary>
 
         <Box pl={2} flex={1}>
-          <Typography variant="h3">Bounty</Typography>
+          <Typography variant="h3">Descartados</Typography>
 
           <Box pt={2} display="flex">
             <Box pr={8}>
@@ -66,9 +66,9 @@ function RecentActivity({data}) {
                 variant="caption"
                 sx={{ fontSize: `${theme.typography.pxToRem(16)}` }}
               >
-                Total
+                Realizados
               </Typography>
-              <Typography variant="h2">${data.bounty}</Typography>
+              <Typography variant="h2">{data.bounty}</Typography>
             </Box>
 
           </Box>

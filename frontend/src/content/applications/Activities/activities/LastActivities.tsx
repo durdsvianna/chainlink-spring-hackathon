@@ -17,7 +17,7 @@ function LastActivities({ data }) {
         pb: 3
       }}
       >
-      <Typography variant="h3">Recent Activities</Typography>
+      <Typography variant="h3">Cadastro de Produto</Typography>
       <Button sx={{ ml: 2 }}
         size="small"
         variant="outlined"

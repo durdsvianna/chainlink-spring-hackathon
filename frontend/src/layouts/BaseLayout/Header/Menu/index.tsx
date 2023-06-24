@@ -21,8 +21,8 @@ const ListWrapper = styled(Box)(
                 .MuiListItemText-root {
                     .MuiTypography-root {
                         &:before {
-                            height: 4px;
-                            width: 22px;
+                            height: 20x;
+                            width: 40px;
                             opacity: 0;
                             visibility: hidden;
                             display: block;
@@ -93,38 +93,39 @@ function HeaderMenu() {
         sx={{
           display: {
             xs: 'none',
-            md: 'block'
-          }
+            md: 'block',
+          },
+          width: 'maxContent',
         }}
       >
-        <List disablePadding component={Box} display="flex">
+        <List disablePadding component={Box} display="flex" >
           <ListItem
             classes={{ root: 'MuiListItem-indicators' }}
             button
             component={NavLink}
             to="/dapp"
+            
           >
-            <img src="../../../nft-logo.png" alt="WarrantyNFTService" />
+        <Typography variant="h1" color={'#B56926'} sx={{ '&:hover': { color: 'green' }, whiteSpace: 'nowrap' }}> W3 RECICLE </Typography>
           </ListItem>
           {loading ? (
             <SuspenseLoader />
-          ) : isLeader ? (
-            isConnected && (
+          ) :  (
+            (
               <>
                 <ListItem
                   classes={{ root: 'MuiListItem-indicators' }}
-                  button
-                  component={NavLink}
-                  to="/dapp/warranties"
-                >
+                  component="a" 
+                  href='https://amanda-maritan.gitbook.io/w3recicle/'>
                   <ListItemText
                     primaryTypographyProps={{ noWrap: true }}
                     primary={
                       <Typography
                         color={'white'}
-                        sx={{ '&:hover': { color: 'green' } }}
+                        sx={{ '&:hover': { color: 'green' },  }}
+                        noWrap
                       >
-                        Warranties
+                        Quem somos nós
                       </Typography>
                     }
                   />
@@ -133,7 +134,8 @@ function HeaderMenu() {
                   classes={{ root: 'MuiListItem-indicators' }}
                   button
                   component={NavLink}
-                  to="/dapp/activities"
+                  to="/dapp/activity-settings"
+                  
                 >
                   <ListItemText
                     primaryTypographyProps={{ noWrap: true }}
@@ -141,16 +143,15 @@ function HeaderMenu() {
                       <Typography
                         color={'white'}
                         sx={{ '&:hover': { color: 'green' } }}
+                        noWrap
                       >
-                        Activities
+                        Cadastrar aparelho
                       </Typography>
                     }
                   />
                 </ListItem>
               </>
             )
-          ) : (
-            <></>
           )}
         </List>
       </ListWrapper>

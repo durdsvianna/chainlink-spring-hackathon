@@ -92,7 +92,9 @@ function ManagementActivitySettings() {
                 </TabsWrapper>
               </Grid>
               <Grid item xs={12}>
-                {currentTab === 'activity' && <ActivityTab data={data} />}
+                {currentTab === 'activity' && <ActivityTab data={data} /> }
+            
+                {/* {currentTab === 'activity' && <CollectPoint data={data}/> } */}
                 {data && currentTab === 'mint-info' && <MintInfoTab data={data}/>}
               </Grid>
             </Grid>

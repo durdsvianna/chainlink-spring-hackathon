@@ -1,3 +1,12 @@
+type TokenId = number & { __tokenIdBrand: never };
+
+const MAX_TOKEN_ID = Number(process.env.NEXT_PUBLIC_MAX_TOKEN_ID) || 10000;
+const nftUrl = process.env.NEXT_PUBLIC_NFT_ENDPOINT || "";
+
+function isTokenId(value: number): value is TokenId {
+  return value >= 0 && value <= MAX_TOKEN_ID;
+}
+
 export async function getNftAsset(
     tokenId: number,
     apiEndpoint?: string

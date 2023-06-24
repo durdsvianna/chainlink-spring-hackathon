@@ -14,7 +14,7 @@ const CardActionsWrapper = styled(CardActions)(
 );
 
 export default function ActivityDetailsNft({ data, loading, tokenId, tokenContract, signer}) {
-  const [hashAccount, setHashAccount] = useState<{}>({});
+  const [hashAccount, setHashAccount] = useState<{}>({});  
   
   const onDployAccount = async (event: { preventDefault: () => void; }) => {
     
@@ -23,7 +23,7 @@ export default function ActivityDetailsNft({ data, loading, tokenId, tokenContra
       tokenId, // ERC-721 token ID
       signer // ethers signer 
     ));
-    
+
   };
   
   return (

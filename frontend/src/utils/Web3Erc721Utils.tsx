@@ -13,6 +13,8 @@ import { hardhat } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { arDZ } from 'date-fns/locale';
+import useSWR from "swr";
+import { getNftAsset } from  "src/utils/nfts/index";
 
 // const { chains } = configureChains(
 //   [hardhat],
@@ -349,3 +351,30 @@ export function useErc721Contract() {
 
     return { data, loading, setLoading, counter, lastToken, balance, checkMember, checkLeader };
   }
+
+
+
+export const useNft = ({
+  tokenId,
+  apiEndpoint,
+  refreshInterval = 30000,
+  cacheKey,
+}: {
+  tokenId: number;
+  apiEndpoint?: string;
+  refreshInterval?: number;
+  cacheKey?: string;
+}) => {
+  const { data } = useSWR(
+    cacheKey ?? `getNftAsset-${tokenId}`,
+    () => getNftAsset(tokenId, apiEndpoint),
+    {
+      refreshInterval: refreshInterval,
+      shouldRetryOnError: true,
+      retry: 3,
+    }
+  );
+  return {
+    data: data ?? null,
+  };
+};

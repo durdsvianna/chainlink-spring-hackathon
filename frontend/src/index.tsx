@@ -19,7 +19,7 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { hardhat, polygonMumbai, goerli } from 'wagmi/chains';
 
 
-const alchemyId = process.env.ALCHEMY_API_KEY as string
+const alchemyId = process.env.REACT_APP_ALCHEMY_API_KEY as string
 // Configure chains & providers with the Alchemy provider.
 // Two popular providers are Alchemy (alchemy.com) and Infura (infura.io)
 const { chains, provider, webSocketProvider } = configureChains(

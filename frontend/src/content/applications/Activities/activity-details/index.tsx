@@ -45,7 +45,7 @@ function ActivityDetails() {
         >
 
               <Grid item xs={12} md={12} >
-                <ActivityDetailsNft data={data} loading={loading} tokenId={tokenId} tokenContract={contractAddress.NftERC721} signer={provider.getSigner()}/>
+                <ActivityDetailsNft data={data} loading={loading} tokenId={tokenId} contractAddress={contractAddress.NftERC721} signer={provider.getSigner()}/>
               </Grid>    
               
         </Grid>

@@ -24,7 +24,7 @@ export default function CompleteActivityNft({ user, data, loading, tokenId }) {
     <>
       <UserHeader user={user}/>
       <AlertDialog textButton={textButton} textDialog={textDialog} textAlertDialog={textAlertDialog} handleButtonClick={handleButtonClick} buttonState={buttonState}/>
-      <ActivityDetailsNft data={data} loading={loading} tokenId={tokenId} tokenContract={contractAddress.NftERC721} signer={provider.getSigner()}/>
+      <ActivityDetailsNft data={data} loading={loading} tokenId={tokenId} contractAddress={contractAddress.NftERC721} signer={provider.getSigner()}/>
     </>
   );
 }

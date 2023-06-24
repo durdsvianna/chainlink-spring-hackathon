@@ -22,6 +22,7 @@ import { arDZ } from 'date-fns/locale';
 const ipfsGateway = process.env.REACT_APP_IPFS_GATEWAY;
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);  
+
 const contract = new ethers.Contract(
   contractAddress.NftERC721,
   NftERC721Artifact.abi,

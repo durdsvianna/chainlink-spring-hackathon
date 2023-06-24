@@ -42,6 +42,7 @@
     "@0xsequence/sstore2": "github:0xsequence/sstore2",
     "@openzeppelin/contracts": "^4.8.2",
     "dotenv": "^16.0.3",
+    "react-swipeable-views": "^0.14.0",
     "wagmi": "^0.12.10"
   },
   "lint-staged": {

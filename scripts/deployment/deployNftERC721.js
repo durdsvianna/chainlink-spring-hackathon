@@ -24,7 +24,7 @@ async function deployNftERC721() {
     //console.log('DEFAULT_ADMIN_ROLE = ', deployerAddress);
     await erc721.grantRole(LEADER_ROLE, "0x289d4092FE8afdB0a9d2d7994219610D208F19d9");
     // console.log('New role LEADER_ROLE to adress 0x289d4092FE8afdB0a9d2d7994219610D208F19d9', LEADER_ROLE);
-    // await erc721.grantRole(LEADER_ROLE, "0x608AbF4328F82Ef053EB1ee73feFA56518F73059");
+    await erc721.grantRole(LEADER_ROLE, "0x608AbF4328F82Ef053EB1ee73feFA56518F73059");
     // console.log('New role LEADER_ROLE to adress 0x608AbF4328F82Ef053EB1ee73feFA56518F73059', LEADER_ROLE);
     // await erc721.grantRole(MEMBER_ROLE, "0xE860C991cdbcd8cF8C5e0C59C2F0B4f2e46043D5");
     // console.log('New role MEMBER_ROLE to adress 0xE860C991cdbcd8cF8C5e0C59C2F0B4f2e46043D5', MEMBER_ROLE);

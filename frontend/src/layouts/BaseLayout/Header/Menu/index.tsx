@@ -150,6 +150,26 @@ function HeaderMenu() {
                     }
                   />
                 </ListItem>
+                <ListItem
+                  classes={{ root: 'MuiListItem-indicators' }}
+                  button
+                  component={NavLink}
+                  to="/dapp/collectpoint-settings"
+                  
+                >
+                  <ListItemText
+                    primaryTypographyProps={{ noWrap: true }}
+                    primary={
+                      <Typography
+                        color={'white'}
+                        sx={{ '&:hover': { color: 'green' } }}
+                        noWrap
+                      >
+                        Administração
+                      </Typography>
+                    }
+                  />
+                </ListItem>
               </>
             )
           )}

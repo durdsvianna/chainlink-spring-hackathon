@@ -18,7 +18,7 @@ import NftERC721Artifact from "src/contracts/NftERC721.json";
 import contractAddress from "src/contracts/contract-nfterc721-address.json";
 import UserProfile from 'src/components/User/UserProfile';
 
-import {Alert, CardActionsWrapper, CardCover, CardCoverAction } from './StyleImports';
+import {Alert, CardActionsWrapper, CardCover, CardCoverAction } from '../../Activities/settings/StyleImports';
 
 interface CustomProps {
   onChange: (event: { target: { name: string; value: string } }) => void;

@@ -40,17 +40,17 @@ const UserSettings = Loader(
   lazy(() => import('src/content/applications/Users/settings'))
 );
 
-const Warranties = Loader(
-  lazy(() => import('src/content/applications/Warranties/warranties'))
+const CollectionPoints = Loader(
+  lazy(() => import('src/content/applications/CollectionPoints/collectionpoints'))
 );
-const Warranty = Loader(
-  lazy(() => import('src/content/applications/Warranties/warranty'))
+const CollectPoint = Loader(
+  lazy(() => import('src/content/applications/CollectionPoints/collectpoint'))
 );
-const WarrantyDetails = Loader(
-  lazy(() => import('src/content/applications/Warranties/warranty-details'))
+const CollectPointDetails = Loader(
+  lazy(() => import('src/content/applications/CollectionPoints/collectpoint-details'))
 );
-const WarrantySettings = Loader(
-  lazy(() => import('src/content/applications/Warranties/settings'))
+const CollectPointSettings = Loader(
+  lazy(() => import('src/content/applications/CollectionPoints/settings'))
 );
 
 const Activities = Loader(
@@ -151,32 +151,28 @@ const routes: RouteObject[] = [
         element: <ActivitySettings />
       },
       {
-        path: '/dapp/warranties',
-        element: <Warranties />
+        path: '/dapp/collectionpoints',
+        element: <CollectionPoints />
       },
       {
-        path: '/dapp/warranty',
-        element: <Warranty />
+        path: '/dapp/collectpoint-settings',
+        element: <CollectPointSettings />
       },
       {
-        path: '/dapp/warranty-details',
-        element: <WarrantyDetails />
+        path: '/dapp/collectpoint-details',
+        element: <CollectPointDetails />
       },
       {
-        path: '/dapp/warranty-details/:tokenId',
-        element: <WarrantyDetails />
+        path: '/dapp/collectpoint-details/:tokenId',
+        element: <CollectPointDetails />
       },
       {
-        path: '/dapp/warranty/:tokenId',
-        element: <Warranty />
+        path: '/dapp/collectpoint/:tokenId',
+        element: <CollectPoint />
       },
       {
-        path: '/dapp/warranty-settings',
-        element: <WarrantySettings />
-      },
-      {
-        path: '/dapp/warranty-settings/edit/:tokenId',
-        element: <WarrantySettings />
+        path: '/dapp/collectpoint-settings/edit/:tokenId',
+        element: <CollectPointSettings />
       },
       {
         path: '/dapp/profile',

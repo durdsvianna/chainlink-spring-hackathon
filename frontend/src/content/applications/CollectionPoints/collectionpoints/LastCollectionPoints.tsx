@@ -3,7 +3,7 @@ import LastActivitiesNft from 'src/components/Nfts/LastActivitiesNft';
 import {Card, CardActions, CardActionArea, CardContent, CardMedia, Button,Tooltip, Typography, Box, Grid, Avatar, styled, alpha} from '@mui/material';
 import { AddTwoTone } from '@mui/icons-material';
 import { useEffect, useState, useCallback } from 'react';
-function LastWarranties({ data }) {  
+function LastCollectionPoints({ data }) {  
   const [, updateState] = useState({});
   const forceUpdate = useCallback(() => updateState({}), []);
   const handleButtonCreateActivity = () => {
@@ -43,4 +43,4 @@ function LastWarranties({ data }) {
   );
 }
 
-export default LastWarranties;
+export default LastCollectionPoints;

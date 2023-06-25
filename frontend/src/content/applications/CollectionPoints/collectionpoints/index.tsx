@@ -5,15 +5,15 @@ import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
 
 import AccountBalance from './AccountBalance';
-import Warranties from './Warranties';
-import LastWarranties from './LastWarranties';
+import CollectionPoints from './CollectionPoints';
+import LastWarranties from './LastCollectionPoints';
 
 import { useContractLoadLastNft, useContractLoadNfts, useErc721Contract } from "src/utils/Web3Erc721Utils"
 import SuspenseLoader from 'src/components/SuspenseLoader';
 import { useEffect, useState } from 'react';
 import { NftOrder } from 'src/models/nft_order';
 
-function ApplicationsWarranties() {
+function ApplicationsCollectionPoints() {
   const { loading, setLoading, loadNfts } = useContractLoadNfts();
   const [ data, setData ] = useState<NftOrder[]>(null);
   const { loadingLastToken, setLoadingLastToken, lastToken, loadLastNft } = useContractLoadLastNft();
@@ -69,7 +69,7 @@ function ApplicationsWarranties() {
               { data && <LastWarranties data={data}/> }
             </Grid>
             <Grid item xs={12}>            
-              { data && <Warranties data={data}/> }
+              { data && <CollectionPoints data={data}/> }
             </Grid>
           </Grid>
         </Container>
@@ -82,4 +82,4 @@ function ApplicationsWarranties() {
   );
 }
 
-export default ApplicationsWarranties;
+export default ApplicationsCollectionPoints;

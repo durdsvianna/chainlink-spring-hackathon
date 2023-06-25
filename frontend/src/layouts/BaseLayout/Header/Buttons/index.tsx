@@ -1,11 +1,13 @@
 import { Box } from '@mui/material';
-import CollectPoint from './CollectPoint/index'
+// import HeaderSearch from './Search';
+// import HeaderNotifications from './Notifications';
 
 function HeaderButtons() {
   return (
     <Box sx={{ mr: 1 }}>
+      {/* <HeaderSearch /> */}
       <Box sx={{ mx: 0.5 }} component="span">
-        <CollectPoint/>
+        {/* <HeaderNotifications /> */}
       </Box>
     </Box>
   );

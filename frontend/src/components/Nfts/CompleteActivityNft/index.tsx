@@ -1,7 +1,7 @@
 import UserHeader from 'src/components/User/UserHeader';
 import AlertDialog from 'src/components/Modal/AlertDialog'
 import { useState } from 'react';
-import ActivityDetailsNft from 'src/components/Nfts/ActivityDetailsNft'
+import ActivityDetailsNft from 'src/components/Nfts/DetailsNft'
 import contractAddress from "src/contracts/contract-nfterc721-address.json";
 import { ethers } from 'ethers';
 

@@ -8,12 +8,14 @@ const { network, run } = require("hardhat")
 
 const { deployTokenShop } = require("./deployTokenShop")
 const { deployNftERC721 } = require("./deployNftERC721")
+const { deployW3Recicle } = require("./deployW3Recicle")
 
 async function main() {
     await run("compile")
     const chainId = network.config.chainId
     //await deployTokenShop(chainId)
-    await deployNftERC721(chainId)
+    // await deployNftERC721(chainId)
+    await deployW3Recicle(chainId)
     //await deployAccount(chainId)
 }
 

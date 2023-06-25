@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/AccessControl.sol";
 contract Token is ERC20, AccessControl {
     bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
 
-    constructor() ERC20("Meu Token ", "DUH") {
+    constructor() ERC20("W3Recicle ", "W3R") {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MINTER_ROLE, msg.sender);
     }

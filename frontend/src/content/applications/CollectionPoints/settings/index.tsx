@@ -7,7 +7,7 @@ import { Container, Tabs, Tab, Grid } from '@mui/material';
 import Footer from 'src/components/Footer';
 import { styled } from '@mui/material/styles';
 import { useContractLoadTokenId } from "src/utils/Web3Erc721Utils"
-import WarrantyTab from './WarrantyTab';
+import CollectPoint from './CollectPoint';
 import MintInfoTab from './MintInfoTab';
 import SuspenseLoader from 'src/components/SuspenseLoader';
 
@@ -26,7 +26,7 @@ function WarrantySettings() {
   
 
   const tabs = [
-    { value: 'warranties', label: 'Warranties' },
+    { value: 'collect-point', label: 'Ponto de Coleta' },
     { value: 'products', label: 'Products' },
     { value: 'product-batches', label: 'Product Batches' },
   ];
@@ -93,7 +93,7 @@ function WarrantySettings() {
                 </TabsWrapper>
               </Grid>
               <Grid item xs={12}>
-                {currentTab === 'warranties' && <WarrantyTab data={data} />}
+                {currentTab === 'collect-point' && <CollectPoint data={data} />}
                 {currentTab === 'products' && <MintInfoTab data={data} />}
                 {currentTab === 'product-batches' && <MintInfoTab data={data}/>}
               </Grid>

@@ -84,7 +84,7 @@ const applyPagination = (
   return nfts && nfts.slice(page * limit, page * limit + limit);
 };
 
-const WarrantiesTable: FC<RecentNftsTableProps> = ({ nfts }) => {
+const CollectionPointsTable: FC<RecentNftsTableProps> = ({ nfts }) => {
   const [selectedNfts, setSelectedNfts] = useState<number[]>(
     []
   );
@@ -356,12 +356,12 @@ const WarrantiesTable: FC<RecentNftsTableProps> = ({ nfts }) => {
   );
 };
 
-WarrantiesTable.propTypes = {
+CollectionPointsTable.propTypes = {
   nfts: PropTypes.array.isRequired
 };
 
-WarrantiesTable.defaultProps = {
+CollectionPointsTable.defaultProps = {
   nfts: []
 };
 
-export default WarrantiesTable;
+export default CollectionPointsTable;

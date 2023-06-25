@@ -5,15 +5,15 @@ import { Grid, Container } from '@mui/material';
 import Footer from 'src/components/Footer';
 
 import AccountBalance from './AccountBalance';
-import Activities from './Activities';
-import LastActivities from './LastActivities';
+import Products from './Products';
+import LastProducts from './LastProducts';
 
 import { useContractLoadLastNft, useContractLoadNfts, useErc721Contract } from "src/utils/Web3Erc721Utils"
 import SuspenseLoader from 'src/components/SuspenseLoader';
 import { useEffect, useState } from 'react';
 import { NftOrder } from 'src/models/nft_order';
 
-function ApplicationsActivities() {
+function ApplicationsProducts() {
   const { loading, setLoading, loadNfts } = useContractLoadNfts();
   const [ data, setData ] = useState<NftOrder[]>(null);
   const { loadingLastToken, setLoadingLastToken, lastToken, loadLastNft } = useContractLoadLastNft();
@@ -42,7 +42,7 @@ function ApplicationsActivities() {
   return (
     <>
       <Helmet>
-        <title>Web3Dev - Activities</title>
+        <title>Web3Dev - Products</title>
       </Helmet>
       <PageTitleWrapper>
         <PageHeader />
@@ -62,10 +62,10 @@ function ApplicationsActivities() {
               <AccountBalance lastToken={lastToken} balance={balance}/>
             </Grid>
             <Grid item xs={12}>
-              <LastActivities data={data}/>
+              <LastProducts data={data}/>
             </Grid>
             <Grid item xs={12}>            
-              <Activities data={data}/>
+              <Products data={data}/>
             </Grid>
           </Grid>
         </Container>
@@ -75,4 +75,4 @@ function ApplicationsActivities() {
   );
 }
 
-export default ApplicationsActivities;
+export default ApplicationsProducts;

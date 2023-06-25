@@ -84,7 +84,7 @@ const applyPagination = (
   return nfts.slice(page * limit, page * limit + limit);
 };
 
-const ActivitiesTable: FC<RecenNftsTableProps> = ({ nfts }) => {
+const ProductsTable: FC<RecenNftsTableProps> = ({ nfts }) => {
   const [selectedNfts, setSelectedNfts] = useState<number[]>(
     []
   );
@@ -356,12 +356,12 @@ const ActivitiesTable: FC<RecenNftsTableProps> = ({ nfts }) => {
   );
 };
 
-ActivitiesTable.propTypes = {
+ProductsTable.propTypes = {
   nfts: PropTypes.array.isRequired
 };
 
-ActivitiesTable.defaultProps = {
+ProductsTable.defaultProps = {
   nfts: []
 };
 
-export default ActivitiesTable;
+export default ProductsTable;

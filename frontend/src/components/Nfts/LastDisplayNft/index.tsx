@@ -1,6 +1,6 @@
 import {Card, CardActions, CardActionArea, CardContent, CardMedia, Button,Tooltip, Typography, Box, Grid, Avatar, styled, alpha} from '@mui/material';
 
-export default function LastActivityDisplayNft( {lastToken}) {
+export default function LastDisplayNft({lastToken}) {
 
     const handleButtonDetails = () => {
       window.location.href = "/dapp/product-details/"+lastToken.tokenId;
@@ -31,7 +31,7 @@ export default function LastActivityDisplayNft( {lastToken}) {
               }}
               variant="h4"
             >
-              Last activity created
+              Último produto criado
             </Typography>
             <Card >
               <CardMedia

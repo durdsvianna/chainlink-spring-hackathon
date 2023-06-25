@@ -19,8 +19,8 @@ const TabsWrapper = styled(Tabs)(
 `
 );
 
-function ManagementActivitySettings() {
-  const [currentTab, setCurrentTab] = useState<string>('activity');
+function ManagementProductSettings() {
+  const [currentTab, setCurrentTab] = useState<string>('product');
   const { tokenId } = useParams();
   const { data, loading, setLoading, loadNft } = useContractLoadTokenId();
   
@@ -58,7 +58,7 @@ function ManagementActivitySettings() {
   return (
     <>
       <Helmet>
-        <title>Activity Settings - Applications</title>
+        <title>Products Settings - Applications</title>
       </Helmet>
       <PageTitleWrapper>
         <PageHeader />
@@ -106,4 +106,4 @@ function ManagementActivitySettings() {
   );
 }
 
-export default ManagementActivitySettings;
+export default ManagementProductSettings;

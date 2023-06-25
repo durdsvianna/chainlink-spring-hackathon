@@ -178,6 +178,9 @@ function HeaderMenu() {
         </List>
       </ListWrapper>
       <Menu anchorEl={ref.current} onClose={handleClose} open={isOpen}>
+        <MenuItem sx={{ px: 3 }} component={NavLink} to="/dapp/products">
+          Produtos
+        </MenuItem>
         <MenuItem sx={{ px: 3 }} component={NavLink} to="/dapp/collectionpoints">
           Pontos de Coleta
         </MenuItem>

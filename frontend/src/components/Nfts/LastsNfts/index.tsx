@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { useShortenAddressOrEnsName } from 'src/utils/Web3Utils';
 
-export default function LastActivitiesNft({ data }) {  
+export default function LastsNfts({ data }) {  
 
     function stringToColor(string: string) {
       let hash = 0;

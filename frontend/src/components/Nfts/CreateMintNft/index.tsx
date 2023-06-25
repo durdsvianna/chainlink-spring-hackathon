@@ -6,8 +6,8 @@ import { useShortenAddressOrEnsName } from 'src/utils/Web3Utils';
 
 export default function CreateMintNft() {
 
-    const handleButtonCreateActivity = () => {
-        window.location.href = "/dapp/activity-settings";
+    const handleButtonCreateNft = () => {
+        window.location.href = "/dapp/product-settings";
       };      
   
     const AvatarWrapper = styled(Avatar)(
@@ -74,8 +74,8 @@ export default function CreateMintNft() {
     return(
       <>            
             <Grid xs={12} sm={6} md={3} item>
-              <Tooltip arrow title="Click to add a new activity">
-                <CardAddAction onClick={handleButtonCreateActivity}>
+              <Tooltip arrow title="Click to mint a new NFT">
+                <CardAddAction onClick={handleButtonCreateNft}>
                   <CardActionArea
                     sx={{
                       px: 1

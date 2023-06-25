@@ -2,12 +2,12 @@ import {Card, CardActions, CardActionArea, CardContent, CardMedia, Button,Toolti
 
 export default function LastActivityDisplayNft( {lastToken}) {
 
-    const handleButtonActivityDetails = () => {
-      window.location.href = "/dapp/activity-details/"+lastToken.tokenId;
+    const handleButtonDetails = () => {
+      window.location.href = "/dapp/product-details/"+lastToken.tokenId;
     };
 
-    const handleButtonActivityEdit = () => {
-      window.location.href = "/dapp/activity-settings/edit/"+lastToken.tokenId;
+    const handleButtonEdit = () => {
+      window.location.href = "/dapp/product-settings/edit/"+lastToken.tokenId;
     };
     
     return(
@@ -48,8 +48,8 @@ export default function LastActivityDisplayNft( {lastToken}) {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" onClick={handleButtonActivityEdit}>Edit</Button>
-                <Button size="small" onClick={handleButtonActivityDetails}>Activity Details</Button>
+                <Button size="small" onClick={handleButtonDetails}>Edit</Button>
+                <Button size="small" onClick={handleButtonDetails}>Details</Button>
               </CardActions>
             </Card>
           </Box>          

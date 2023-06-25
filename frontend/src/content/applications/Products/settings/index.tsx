@@ -9,7 +9,7 @@ import { styled } from '@mui/material/styles';
 import { useContractLoadTokenId } from "src/utils/Web3Erc721Utils"
 import MintInfoTab from './MintInfoTab';
 import SuspenseLoader from 'src/components/SuspenseLoader';
-// import CollectPoint from './CollectPoint';
+import ProductTab from './ProductTab';
 
 const TabsWrapper = styled(Tabs)(
   () => `
@@ -26,7 +26,7 @@ function ManagementActivitySettings() {
   
 
   const tabs = [
-    { value: 'activity', label: 'Activity Info' },
+    { value: 'product', label: 'Product Info' },
     { value: 'mint-info', label: 'Mint Info' }
   ];
 
@@ -92,7 +92,7 @@ function ManagementActivitySettings() {
                 </TabsWrapper>
               </Grid>
               <Grid item xs={12}>
-                {/* {currentTab === 'activity' && <ActivityTab data={data} /> } */}
+                 {currentTab === 'product' && <ProductTab data={data} /> } 
             
                 {/* {currentTab === 'activity' && <CollectPoint data={data}/> } */}
                 {data && currentTab === 'mint-info' && <MintInfoTab data={data}/>}

@@ -1,7 +1,7 @@
 import UserHeader from 'src/components/User/UserHeader';
 import AlertDialog from 'src/components/Modal/AlertDialog'
 import { useState } from 'react';
-import ActivityDetailsNft from 'src/components/Nfts/DetailsNft'
+import DetailsNft from 'src/components/Nfts/DetailsNft'
 import contractAddress from "src/contracts/contract-nfterc721-address.json";
 import { ethers } from 'ethers';
 
@@ -24,7 +24,7 @@ export default function CompleteActivityNft({ user, data, loading, tokenId }) {
     <>
       <UserHeader user={user}/>
       <AlertDialog textButton={textButton} textDialog={textDialog} textAlertDialog={textAlertDialog} handleButtonClick={handleButtonClick} buttonState={buttonState}/>
-      <ActivityDetailsNft data={data} loading={loading} tokenId={tokenId} contractAddress={contractAddress.NftERC721} signer={provider.getSigner()}/>
+      <DetailsNft data={data} loading={loading} tokenId={tokenId} contractAddress={contractAddress.NftERC721} signer={provider.getSigner()}/>
     </>
   );
 }

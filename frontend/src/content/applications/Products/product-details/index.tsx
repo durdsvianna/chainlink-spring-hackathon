@@ -9,7 +9,7 @@ import { useParams } from 'react-router';
 import { useEffect } from 'react';
 import contractAddress from "src/contracts/contract-nfterc721-address.json";
 
-function ActivityDetails() {
+function ProductDetails() {
   const { data, loading, setLoading, loadNft } = useContractLoadTokenId();
   const {tokenId} = useParams();
   console.log('tokenId = ', tokenId);
@@ -55,4 +55,4 @@ function ActivityDetails() {
   );
 }
 
-export default ActivityDetails;
+export default ProductDetails;

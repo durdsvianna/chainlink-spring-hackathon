@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography, Box, Grid } from '@mui/material';
 import SuspenseLoader from 'src/components/SuspenseLoader';
-import DetailsDescriptionNft from 'src/content/applications/Activities/activity-details/DetailsDescriptionNft';
+import DetailsDescriptionNft from 'src/content/applications/Products/product-details/DetailsDescriptionNft';
 import { styled } from '@mui/material/styles';
 import { createAccount } from "@tokenbound/sdk-ethers";
 import { AlchemyConfig } from "src/utils/Alchemy";

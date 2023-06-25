@@ -53,17 +53,20 @@ const CollectPointSettings = Loader(
   lazy(() => import('src/content/applications/CollectionPoints/settings'))
 );
 
-const Activities = Loader(
-  lazy(() => import('src/content/applications/Activities/activities'))
+const Products = Loader(
+  lazy(() => import('src/content/applications/Products/products'))
 );
-const Activity = Loader(
-  lazy(() => import('src/content/applications/Activities/activity'))
+const Product = Loader(
+  lazy(() => import('src/content/applications/Products/product'))
 );
-const ActivityDetails = Loader(
-  lazy(() => import('src/content/applications/Activities/activity-details'))
+const ProductDetails = Loader(
+  lazy(() => import('src/content/applications/Products/product-details'))
 );
-const ActivitySettings = Loader(
-  lazy(() => import('src/content/applications/Activities/settings'))
+const ProductRegister = Loader(
+  lazy(() => import('src/content/applications/Products/product-register'))
+);
+const ProductSettings = Loader(
+  lazy(() => import('src/content/applications/Products/settings'))
 );
 
 // Components
@@ -123,32 +126,40 @@ const routes: RouteObject[] = [
         element: <Navigate to="/" replace />
       },
       {
-        path: '/dapp/activities',
-        element: <Activities />
+        path: '/dapp/products',
+        element: <Products />
       },
       {
-        path: '/dapp/activity',
-        element: <Activity />
+        path: '/dapp/product',
+        element: <Product />
       },
       {
-        path: '/dapp/activity-details',
-        element: <ActivityDetails />
+        path: '/dapp/product-details',
+        element: <ProductDetails />
       },
       {
-        path: '/dapp/activity-details/:tokenId',
-        element: <ActivityDetails />
+        path: '/dapp/product-details/:tokenId',
+        element: <ProductDetails />
       },
       {
-        path: '/dapp/activity/:tokenId',
-        element: <Activity />
+        path: '/dapp/product-register',
+        element: <ProductRegister />
       },
       {
-        path: '/dapp/activity-settings',
-        element: <ActivitySettings />
+        path: '/dapp/product-register/:tokenId',
+        element: <ProductRegister />
       },
       {
-        path: '/dapp/activity-settings/edit/:tokenId',
-        element: <ActivitySettings />
+        path: '/dapp/product/:tokenId',
+        element: <Product />
+      },
+      {
+        path: '/dapp/product-settings',
+        element: <ProductSettings />
+      },
+      {
+        path: '/dapp/product-settings/edit/:tokenId',
+        element: <ProductSettings />
       },
       {
         path: '/dapp/collectionpoints',

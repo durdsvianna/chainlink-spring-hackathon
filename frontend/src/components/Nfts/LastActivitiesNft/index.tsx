@@ -62,8 +62,8 @@ export default function LastActivitiesNft({ data }) {
     `
     );
 
-    const handleButtonEditActivity = (tokenId) => {
-      window.location.href = "/dapp/activity-settings/edit/"+tokenId;
+    const handleButtonEditNft = (tokenId) => {
+      window.location.href = "/dapp/product-settings/edit/"+tokenId;
     };
 
     useEffect(() => {
@@ -80,7 +80,7 @@ export default function LastActivitiesNft({ data }) {
         {        
         sliceData.map((nftData, index) => (
           <Grid xs={12} sm={6} md={3} item key={index}>
-            <CardAddAction onClick={() => handleButtonEditActivity(nftData.tokenId)}>
+            <CardAddAction onClick={() => handleButtonEditNft(nftData.tokenId)}>
               <CardActionArea
                 sx={{
                   px: 1

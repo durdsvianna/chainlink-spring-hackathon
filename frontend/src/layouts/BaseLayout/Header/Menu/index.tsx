@@ -136,7 +136,7 @@ function HeaderMenu() {
                   classes={{ root: 'MuiListItem-indicators' }}
                   button
                   component={NavLink}
-                  to="/dapp/activity-settings"
+                  to="/dapp/product-register"
                   
                 >
                   <ListItemText

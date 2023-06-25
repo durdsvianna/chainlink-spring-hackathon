@@ -38,7 +38,7 @@ export default function MediaNft({ data }) {
                     </CardContent>
                     <CardActions>
                       <Button size="small">Share</Button>
-                      <Button size="small" onClick={() => handleButtonNftDetails(data.tokenId)}>Activity Details</Button>
+                      <Button size="small" onClick={() => handleButtonNftDetails(data.tokenId)}>Details</Button>
                     </CardActions>  
                   </Card>
                 </Grid>

@@ -115,8 +115,8 @@ const CollectionPointsTable: FC<RecentNftsTableProps> = ({ nfts }) => {
   ];
 
 
-  const handleOnClickEditActivity = (event, tokenId) => {
-    window.location.href = "/dapp/activity-settings/edit/"+tokenId;
+  const handleOnClickEdit = (event, tokenId) => {
+    window.location.href = "/dapp/collectpoint-settings/edit/"+tokenId;
   };
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -204,7 +204,7 @@ const CollectionPointsTable: FC<RecentNftsTableProps> = ({ nfts }) => {
               </FormControl>
             </Box>
           }
-          title="Activities"
+          title="Pontos de Coleta"
         />
       )}
       <Divider />
@@ -308,7 +308,7 @@ const CollectionPointsTable: FC<RecentNftsTableProps> = ({ nfts }) => {
                   <TableCell align="right">
                     <Tooltip title="Edit Activity" arrow>
                       <IconButton onClick={(event) =>
-                          handleOnClickEditActivity(event, nft.tokenId)
+                          handleOnClickEdit(event, nft.tokenId)
                         }
                         sx={{
                           '&:hover': {

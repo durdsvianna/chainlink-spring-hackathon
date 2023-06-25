@@ -1,6 +1,6 @@
 import { Card, Grid } from '@mui/material';
 import AccountBalanceNft from 'src/components/Nfts/AccountBalanceNft';
-import LastActivityDisplayNft from 'src/components/Nfts/LastActivityDisplayNft';
+import LastDisplayNft from 'src/components/Nfts/LastDisplayNft';
 
 const AccountBalance = ({ lastToken, balance }) => {
   
@@ -8,7 +8,7 @@ const AccountBalance = ({ lastToken, balance }) => {
     <Card>
       <Grid spacing={0} container>
         <AccountBalanceNft balance={balance}/>
-        <LastActivityDisplayNft lastToken={lastToken}/>
+        <LastDisplayNft lastToken={lastToken} />
       </Grid>
     </Card>
   );

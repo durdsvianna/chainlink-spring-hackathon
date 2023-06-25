@@ -10,7 +10,7 @@ import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
 import { useIpfsUploader } from "src/utils/IpfsUtils"
-import { useMintToken } from "src/utils/Web3Erc721Utils"
+import { useMintToken, useProduct } from "src/utils/Web3Erc721Utils"
 import { useDateFormatter } from 'src/utils/DateUtils';
 import { useSigner } from 'wagmi';
 import UserProfile from 'src/components/User/UserProfile';
@@ -61,13 +61,23 @@ const ProductFabricant = [
 }
 ];
 
+const DeviceType = [
+  {
+    value: '1', label: 'Notebook'
+  },
+  {
+    value: '2', label: 'Smartphone',
+  },
+  {
+    value: '3', label: 'Tablet'
+  }
+  ];
+
 const schema = yup.object({
-  model: yup.string().required('Campo obrigatório.'),
-  Fabricante: yup.string().required('Campo obrigatório.'),
-  MEI: yup.string().required('Campo obrigatório.'),
+  model: yup.string().required('Campo obrigatório.')
 }).required();
 
-function ActivityTab({ data }) {
+function ProductTab({ data }) {
   const user = UserProfile();
   const creator = user.name;
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -76,9 +86,9 @@ function ActivityTab({ data }) {
 
   const [openInformartion, setOpenInformartion] = useState(false);
   const [openError, setOpenError] = useState(false);
-  const [product, setProduct] = useState('');
+  const [fabricant, setFabricant] = useState('');
   const [model, setModel] = useState('');
-  const [mei, setMEI] = useState('');
+  const [deviceType, setDeviceType] = useState('');
   const [imageCover, setImageCover] = useState(bgimage);
   const [image, setImage] = useState<string | ArrayBuffer>();
   const [imageFile, setImageFile] = useState<File>();
@@ -88,11 +98,12 @@ function ActivityTab({ data }) {
   
   const { uploadToInfura, uploadFileToPinata, uploadJsonToPinata, uploadFileResult, setUploadFileResult, uploadJsonResult, setUploadJsonResult } = useIpfsUploader();
   const { loading, setLoading, isMinted, safeMint } = useMintToken(uploadJsonResult);
+  const { loadingSaveProduct, setLoadingSaveProduct, saveProduct } = useProduct();
   const { getFormattedDate, languageFormat, setLanguageFormat } = useDateFormatter('pt-BR');
 
   // Produto é NFT
   const [nft, setNft] = useState({
-    mei: '',
+    deviceType: '',
     model: '',
     image: '',
     fabricant: '',
@@ -101,22 +112,23 @@ function ActivityTab({ data }) {
   });
 
 
-  const mintNft = async (tokenUri, to) => {
-    setLoading(true);
-    safeMint(to, tokenUri, "0");
+  const createProduct = async (deviceType: string, model: string, fabricant: string, image: string, price: string) => {
+    setLoading(true);    
+    saveProduct(deviceType, model, fabricant, image, price);
     setLoading(false);
 
   }
 
   const onSubmit = async (event: { preventDefault: () => void; }) => {
+    console.log("ENTROU NO SUBMIT")
     nft.attributes = [...nft.attributes, {
       trait_type: 'Model',
       value: model
     }];
 
     nft.attributes = [...nft.attributes, {
-      trait_type: 'MEI',
-      value: mei
+      trait_type: 'Device Type',
+      value: deviceType
     }];
 
     //armazena imagem IPFS
@@ -134,7 +146,8 @@ function ActivityTab({ data }) {
     try {
       const ipfsJsonResult = await uploadJsonToPinata(JSON.stringify(nft), "tokenUri.json");
       setUploadJsonResult(ipfsJsonResult);
-      mintNft(ipfsJsonResult.IpfsHash, process.env.REACT_APP_DAPP_CONTRACT);
+      //mintNft(ipfsJsonResult.IpfsHash, process.env.REACT_APP_DAPP_CONTRACT);
+      createProduct(deviceType, model, fabricant, ipfsJsonResult.IpfsHash.toString(), "10");
       setOpenInformartion(true);
     } catch (error) {
       console.log("Erro: ", error);
@@ -163,16 +176,16 @@ function ActivityTab({ data }) {
   };
 
   const handleChangeFabricant = (event) => {
-    setProduct(event.target.value);
+    setFabricant(event.target.value);
     nft.attributes = [...nft.attributes, {
       trait_type: 'Fabricant',
       value:  event.target.value
     }];
   };
 
-  const handleChangeMEI = (event) => {
-    setMEI(event.target.value);
-    nft.mei = event.target.value;
+  const handleChangeDeviceType = (event) => {
+    setDeviceType(event.target.value);
+    nft.deviceType = event.target.value;
   };
 
   const onDrop = useCallback(async (acceptedFiles) => {
@@ -243,7 +256,7 @@ function ActivityTab({ data }) {
                     <CardMedia
                       sx={{ minHeight: 280 }}
                       image={imageCoverLoaded ? url : imageCover}
-                      title="Adicionar Eletroeletrônico"
+                      title="Cadastrar Produto Eletroeletrônico"
                     />
                     <CardCoverAction>
                       <input {...getInputProps({ name: 'image' })} id="change-cover" multiple />
@@ -285,11 +298,31 @@ function ActivityTab({ data }) {
               }}
             >
               <div>
-                <TextField fullWidth {...register("Fabricante")}
-                  id="outlined-required"
+                <TextField fullWidth 
+                  select
+                  label={data && data.deviceType ? '' : 'Tipo de Produto'}
+                  value={data && data.deviceType ? data.deviceType : deviceType}
+                  onChange={handleChangeDeviceType}
+                  disabled={data && data.tokenId >= 0 ? true : false}
+                  SelectProps={{
+                    native: true
+                  }}
+                >    
+                 {DeviceType.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}         
+                </TextField> 
+
+            
+              </div>
+
+              <div>
+                <TextField fullWidth 
                   select
                   label={data && data.product ? '' : 'Fabricante'}
-                  value={data && data.product ? data.product : product}
+                  value={data && data.product ? data.product : fabricant}
                   onChange={handleChangeFabricant}
                   disabled={data && data.tokenId >= 0 ? true : false}
                   SelectProps={{
@@ -305,44 +338,21 @@ function ActivityTab({ data }) {
 
             
               </div>
-
+              
               <div>
-                <TextField fullWidth {...register("Tipo de Produto")}
-                  id="outlined-required"
-                  select
-                  label={data && data.product ? '' : 'Tipo de Produto'}
-                  value={data && data.product ? data.product : product}
-                  onChange={handleChangeFabricant}
-                  disabled={data && data.tokenId >= 0 ? true : false}
-                  SelectProps={{
-                    native: true
-                  }}
-                >    
-                 {ProductFabricant.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}         
-                  </TextField> 
-
-            
-              </div>
-
-              <div>
-                <TextField fullWidth {...register("model")}
-                  id="outlined-required"
+                <TextField fullWidth {...register("model")} 
                   label={data && data.name ? '' : 'Modelo do Dispositivo'}
                   onChange={handleChangeModel}
                   placeholder={data && data.name ? '' : 'Ex: 5S'}
                   disabled={data && data.tokenId >= 0 ? true : false}
-                  value={data && data.name}
+                  value={data && data.model ? data.model : model}
                 />
                 <p>{errors.title?.message}</p>
               </div>
 
 
               
-              <div> 
+              {/* <div> 
               <TextField fullWidth {...register("MEI")}
                   id="outlined-required"
                   label={data && data.name ? '' : 'MEI'}
@@ -352,7 +362,7 @@ function ActivityTab({ data }) {
                   value={data && data.name}
                 />
                 <p>{errors.title?.message}</p>
-              </div>
+              </div> */}
             </Box>
           </CardActionsWrapper>
 
@@ -371,7 +381,7 @@ function ActivityTab({ data }) {
                 </Box>
                 <Box sx={{ mt: { xs: 2, md: 0 } }}>
                   <Button type="submit" variant="contained">
-                    Create Activity
+                    Cadastrar Produto
                   </Button>
                 </Box>
               </CardActionsWrapper>
@@ -383,4 +393,4 @@ function ActivityTab({ data }) {
   );
 }
 
-export default ActivityTab;
+export default ProductTab;

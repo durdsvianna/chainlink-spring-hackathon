@@ -1,11 +1,12 @@
 import CreateMintNft from 'src/components/Nfts/CreateMintNft';
-import LastActivitiesNft from 'src/components/Nfts/LastActivitiesNft';
+import LastsNfts from 'src/components/Nfts/LastsNfts';
 import {Card, CardActions, CardActionArea, CardContent, CardMedia, Button,Tooltip, Typography, Box, Grid, Avatar, styled, alpha} from '@mui/material';
 import { AddTwoTone } from '@mui/icons-material';
-function LastActivities({ data }) {  
 
-  const handleButtonCreateActivity = () => {
-    window.location.href = "/dapp/activity-settings";
+function LastProducts({ data }) {  
+
+  const handleButtonCreate = () => {
+    window.location.href = "/dapp/product-settings";
   };
 
   return (
@@ -21,19 +22,19 @@ function LastActivities({ data }) {
       <Button sx={{ ml: 2 }}
         size="small"
         variant="outlined"
-        onClick={handleButtonCreateActivity}
+        onClick={handleButtonCreate}
         startIcon={<AddTwoTone fontSize="small" />}
       >
-        Create Activity
+        Criar Produto
       </Button>
     </Box>
     <Grid container spacing={3}>
       <CreateMintNft/>
-      <LastActivitiesNft data={data}/>
+      <LastsNfts data={data}/>
     </Grid>
     
     </>
   );
 }
 
-export default LastActivities;
+export default LastProducts;

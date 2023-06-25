@@ -7,9 +7,9 @@ import { Container, Tabs, Tab, Grid } from '@mui/material';
 import Footer from 'src/components/Footer';
 import { styled } from '@mui/material/styles';
 import { useContractLoadTokenId } from "src/utils/Web3Erc721Utils"
-import ActivityTab from './ActivityTab';
 import MintInfoTab from './MintInfoTab';
 import SuspenseLoader from 'src/components/SuspenseLoader';
+import CollectPoint from './CollectPoint';
 
 const TabsWrapper = styled(Tabs)(
   () => `
@@ -92,9 +92,9 @@ function ManagementActivitySettings() {
                 </TabsWrapper>
               </Grid>
               <Grid item xs={12}>
-                {currentTab === 'activity' && <ActivityTab data={data} /> }
+                {/* {currentTab === 'activity' && <ActivityTab data={data} /> } */}
             
-                {/* {currentTab === 'activity' && <CollectPoint data={data}/> } */}
+                {currentTab === 'activity' && <CollectPoint data={data}/> }
                 {data && currentTab === 'mint-info' && <MintInfoTab data={data}/>}
               </Grid>
             </Grid>

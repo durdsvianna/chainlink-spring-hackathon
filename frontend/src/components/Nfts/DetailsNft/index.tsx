@@ -37,7 +37,7 @@ const CardActionsWrapper = styled(CardActions)(
 `
 );
 
-export default function ActivityDetailsNft({ data, loading, tokenId, contractAddress, signer}) {
+export default function DetailsNft({ data, loading, tokenId, contractAddress, signer}) {
   const [hashAccount, setHashAccount] = useState<string>("");
   const [isLocked, setIsLocked] = useState(false);
   const [tokenInfoTooltip, setTokenInfoTooltip] = useState(false);

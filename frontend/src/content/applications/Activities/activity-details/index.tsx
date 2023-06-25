@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { ethers } from 'ethers';
 import { Grid, Container, Card } from '@mui/material';
 
-import ActivityDetailsNft from 'src/components/Nfts/ActivityDetailsNft';
+import ActivityDetailsNft from 'src/components/Nfts/DetailsNft';
 import { useContractLoadTokenId } from 'src/utils/Web3Erc721Utils';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';

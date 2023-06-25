@@ -1,4 +1,4 @@
-import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Box, List, ListItem, ListItemText, Typography, Menu, MenuItem } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
@@ -152,12 +152,12 @@ function HeaderMenu() {
                     }
                   />
                 </ListItem>
+                
                 <ListItem
                   classes={{ root: 'MuiListItem-indicators' }}
                   button
-                  component={NavLink}
-                  to="/dapp/collectpoint-settings"
-                  
+                  ref={ref}
+                  onClick={handleOpen}
                 >
                   <ListItemText
                     primaryTypographyProps={{ noWrap: true }}
@@ -177,6 +177,11 @@ function HeaderMenu() {
           )}
         </List>
       </ListWrapper>
+      <Menu anchorEl={ref.current} onClose={handleClose} open={isOpen}>
+        <MenuItem sx={{ px: 3 }} component={NavLink} to="/dapp/collectionpoints">
+          Pontos de Coleta
+        </MenuItem>
+      </Menu>
     </>
   );
 }
